@@ -166,6 +166,7 @@ jar.finalizedBy('reobfJar')
 // publish.dependsOn('reobfJar')
 
 task devJar(type: Jar) {
+    from sourceSets.main.output
     from sourceSets.main.allJava
     classifier = 'dev'
     manifest {
