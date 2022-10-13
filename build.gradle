@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "${myversion}"
-group = 'dev.zontreck.lib' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'dev.zontreck.libzontreck' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'libzontreck'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
