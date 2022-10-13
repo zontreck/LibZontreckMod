@@ -5,7 +5,7 @@ plugins {
 }
 
 version = "${myversion}"
-group = 'dev.zontreck.libzontreck' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'dev.zontreck' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'libzontreck'
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
@@ -148,7 +148,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "libzontreck",
+                "Specification-Title"     : project.name,
                 "Specification-Vendor"    : "zontreck",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
@@ -165,10 +165,30 @@ jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 // publish.dependsOn('reobfJar')
 
+task devJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'dev'
+    manifest {
+        attributes([
+            "Specification-Title": project.name,
+            "Specification-Vendor": "zontreck",
+            "Specification-Version": "1",
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.jar.archiveVersion,
+            "Implementation-Vendor": "zontreck",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+devJar.finalizedBy('reobfJar')
+
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
+            artifact devJar
         }
     }
     repositories {
