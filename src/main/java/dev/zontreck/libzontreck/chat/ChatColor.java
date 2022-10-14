@@ -56,6 +56,7 @@ public class ChatColor {
     {
         for(ChatColor.ColorOptions color : ChatColor.ColorOptions.values()){
             msg = msg.replace("!"+color.toString()+"!", ChatColor.from(color));
+            msg = msg.replace("!"+color.toString().toLowerCase()+"!", ChatColor.from(color));
         }
         for(ChatColor.ColorOptions color : ChatColor.ColorOptions.values()){
             String correctCode = ChatColor.from(color);
