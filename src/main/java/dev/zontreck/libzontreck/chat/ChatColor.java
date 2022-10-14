@@ -23,7 +23,8 @@ public class ChatColor {
         Bold,
         Italic,
         Strikethrough,
-        Crazy
+        Crazy,
+        Reset
     }
     public static char CODE = '§';
     public static String BLACK = build("0");
@@ -163,6 +164,10 @@ public class ChatColor {
             case Crazy:
             {
                 return CRAZY;
+            }
+            case Reset:
+            {
+                return RESET+WHITE;
             }
             default:
             {

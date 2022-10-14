@@ -10,12 +10,17 @@ public class ChatColorFactory {
         public String build(){
             return built;
         }
+        public void reset()
+        {
+            built="";
+            append(ChatColor.resetChat());
+        }
         public ColorBuilder(){}
     }
     private ColorBuilder instance;
     public ChatColorFactory reset()
     {
-        instance.append(ChatColor.resetChat());
+        instance.reset();
         return this;
     }
     public ChatColorFactory set(ChatColor.ColorOptions option)
