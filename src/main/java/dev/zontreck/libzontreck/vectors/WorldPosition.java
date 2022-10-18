@@ -92,4 +92,11 @@ public class WorldPosition
 
         return dimL;
     }
+
+    
+    public boolean same(WorldPosition other)
+    {
+        if(Position.same(other.Position) && Dimension == other.Dimension)return true;
+        else return false;
+    }
 }

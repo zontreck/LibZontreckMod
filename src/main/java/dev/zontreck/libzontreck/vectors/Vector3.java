@@ -137,4 +137,11 @@ public class Vector3
         y=tag.getDouble("y");
         z=tag.getDouble("z");
     }
+
+    
+    public boolean same(Vector3 other)
+    {
+        if(x == other.x && y==other.y && z==other.z)return true;
+        else return false;
+    }
 }

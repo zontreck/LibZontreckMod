@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.vectors;
 
 import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
@@ -64,5 +65,30 @@ public class Vector2
     public String toString()
     {
         return "<"+String.valueOf(x)+", "+String.valueOf(y) + ">";
+    }
+
+    
+    public CompoundTag serialize()
+    {
+        CompoundTag tag = new CompoundTag();
+        tag.putFloat("x", x);
+        tag.putFloat("y", y);
+
+        return tag;
+    }
+
+    public Vector2(CompoundTag tag) {
+        this.deserialize(tag);
+    }
+    public void deserialize(CompoundTag tag)
+    {
+        x=tag.getFloat("x");
+        y=tag.getFloat("y");
+    }
+
+    public boolean same(Vector2 other)
+    {
+        if(x == other.x && y==other.y)return true;
+        else return false;
     }
 }
