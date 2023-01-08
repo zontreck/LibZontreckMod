@@ -3,7 +3,6 @@ package dev.zontreck.libzontreck.vectors;
 import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec2;
-import net.minecraft.world.phys.Vec3;
 
 public class Vector2
 {

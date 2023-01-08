@@ -5,7 +5,6 @@ import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 
 public class WorldPosition

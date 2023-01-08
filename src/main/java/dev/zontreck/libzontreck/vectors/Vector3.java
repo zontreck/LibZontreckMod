@@ -1,5 +1,8 @@
 package dev.zontreck.libzontreck.vectors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -69,6 +72,103 @@ public class Vector3
             this.z = Double.parseDouble(positions[2]);
             // We are done now
         }
+    }
+
+    public List<Vector3> makeCube(Vector3 other)
+    {
+        List<Vector3> vecs = new ArrayList<>();
+        Vector3 work = new Vector3();
+
+        double xx = x;
+        double yy = y;
+        double zz = z;
+
+        int yState = 0;
+        int zState = 0;
+        int xState = 0;
+
+        for(xx = Math.round(x); (xx != Math.round(other.x) && xState != 2);)
+        {
+            for(zz = Math.round(z); (zz != Math.round(other.z) && zState != 2);)
+            {
+                for(yy = Math.round(y); (yy != Math.round(other.y) && yState != 2);)
+                {
+                    work = new Vector3(xx, yy, zz);
+
+                    if(!vecs.contains(work)) vecs.add(work);
+
+                    if(yy > other.y)
+                    {
+                        yy -= 1.0;
+                        if(yy == Math.round(other.y) && yState == 0)
+                        {
+                            yState++;
+                        }else{
+                            if(yState == 1)
+                            {
+                                yState ++;
+                            }
+                        }
+                    } else if(yy < other.y)
+                    {
+                        yy += 1.0;
+                        if(yy == Math.round(other.y) && yState == 0){
+                            yState ++;
+                        }else {
+                            if(yState == 1)yState++;
+                        }
+                    }
+                }
+
+                yState=0;
+                work = new Vector3(xx,yy,zz);
+                
+                if(!vecs.contains(work)) vecs.add(work);
+
+                if(zz > other.z)
+                {
+                    zz -= 1.0;
+
+                    if(zz == Math.round(other.z) && zState == 0)zState++;
+                    else{
+                        if(zState == 1)zState++;
+                    }
+                }else if(zz < other.z)
+                {
+                    zz += 1.0;
+
+                    if(zz == Math.round(other.z) && zState == 0)zState++;
+                    else {
+                        if(zState==1)zState++;
+                    }
+                }
+            }
+
+            zState=0;
+            work = new Vector3(xx,yy,zz);
+
+            if(!vecs.contains(work)) vecs.add(work);
+
+            if(xx > other.x)
+            {
+                xx -= 1.0;
+
+                if(xx == Math.round(other.x) && xState == 0) xState++;
+                else{
+                    if(xState == 1)xState++;
+                }
+            }else if(xx < other.x)
+            {
+                xx += 1.0;
+
+                if(xx == Math.round(other.x)  &&  xState==0)xState++;
+                else{
+                    if(xState==1)xState++;
+                }
+            }
+        }
+
+        return vecs;
     }
 
     public Vector3 subtract(Vector3 other)
