@@ -49,6 +49,10 @@ public class WorldPosition
         ServerLevel lvl = getActualDimension();
         DimSafe = lvl.dimension().location().getNamespace() + "-" + lvl.dimension().location().getPath();
     }
+    public static String getDimSafe(ServerLevel lvl)
+    {
+        return lvl.dimension().location().getNamespace() + "-" + lvl.dimension().location().getPath();
+    }
 
     @Override
     public String toString()
