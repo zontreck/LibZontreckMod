@@ -13,6 +13,7 @@ public class WorldPosition
     
     public Vector3 Position;
     public String Dimension;
+    public String DimSafe;
 
     public WorldPosition(CompoundTag tag, boolean pretty) throws InvalidDeserialization
     {
@@ -25,18 +26,28 @@ public class WorldPosition
             Dimension = tag.getString("Dimension");
         }
 
+        calcDimSafe();
+
     }
 
     public WorldPosition(Vector3 pos, String dim)
     {
         Position=pos;
         Dimension=dim;
+        calcDimSafe();
     }
 
     public WorldPosition(Vector3 pos, ServerLevel lvl)
     {
         Position=pos;
         Dimension = lvl.dimension().location().getNamespace() + ":"+lvl.dimension().location().getPath();
+        calcDimSafe();
+    }
+
+    public void calcDimSafe()
+    {
+        ServerLevel lvl = getActualDimension();
+        DimSafe = lvl.dimension().location().getNamespace() + "-" + lvl.dimension().location().getPath();
     }
 
     @Override
