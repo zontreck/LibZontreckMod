@@ -56,10 +56,17 @@ public class LoreContainer {
         AssertLoreExists();
 
         // Set the Lore
-        ListTag lst = associatedItem.getTag().getCompound(ItemStack.TAG_DISPLAY).getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+        CompoundTag tag = associatedItem.getTag();
+        CompoundTag display = tag.getCompound(ItemStack.TAG_DISPLAY);
+        ListTag lore = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
 
         // Set the lore entry
-        SetOrUpdateIndex(lst, loreEntryNumber, StringTag.valueOf(miscData.saveJson()));
+        SetOrUpdateIndex(lore, loreEntryNumber, StringTag.valueOf(miscData.saveJson()));
+        display.put(ItemStack.TAG_LORE, lore);
+        tag.put(ItemStack.TAG_DISPLAY, display);
+        associatedItem.setTag(tag);
+
+        
     }
 
     private void SetOrUpdateIndex(ListTag lst, int pos, Tag insert)
@@ -92,6 +99,7 @@ public class LoreContainer {
         if(display==null)
         {
             tag.put(ItemStack.TAG_DISPLAY, new CompoundTag());
+            associatedItem.setTag(tag);
         }
     }
 
@@ -105,8 +113,8 @@ public class LoreContainer {
         {
             lore = new ListTag();
             display.put(ItemStack.TAG_LORE, lore);
-            //tag.put(ItemStack.TAG_DISPLAY, display);
-            //associatedItem.setTag(tag);
+            tag.put(ItemStack.TAG_DISPLAY, display);
+            associatedItem.setTag(tag);
         }
     }
 }
