@@ -21,6 +21,11 @@ public class LoreContainer {
 
         this.associatedItem = associated;
     }
+    public void save(CompoundTag tag)
+    {
+        tag.putInt("pos", loreEntryNumber);
+        miscData.save(tag);
+    }
 
     public LoreContainer(ItemStack stack)
     {
@@ -66,7 +71,7 @@ public class LoreContainer {
         tag.put(ItemStack.TAG_DISPLAY, display);
         associatedItem.setTag(tag);
 
-        
+
     }
 
     private void SetOrUpdateIndex(ListTag lst, int pos, Tag insert)
