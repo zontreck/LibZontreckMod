@@ -59,7 +59,16 @@ public class LoreContainer {
         ListTag lst = associatedItem.getTag().getCompound(ItemStack.TAG_DISPLAY).getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
 
         // Set the lore entry
-        lst.set(loreEntryNumber, StringTag.valueOf(miscData.saveJson()));
+        SetOrUpdateIndex(lst, loreEntryNumber, StringTag.valueOf(miscData.saveJson()));
+    }
+
+    private void SetOrUpdateIndex(ListTag lst, int pos, Tag insert)
+    {
+        if(lst.size() <= pos){
+            lst.add(insert);
+            // Update the loreEntryNumber
+            loreEntryNumber = lst.indexOf(insert);
+        }else lst.set(pos, insert);
     }
 
     private void AssertLoreExists()
