@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagTypes;
 import net.minecraft.world.item.ItemStack;
 
 public class LoreContainer {
@@ -35,7 +36,7 @@ public class LoreContainer {
         ListTag loreEntries = null;
         if(display!= null)
         {
-            loreEntries = display.getList(ItemStack.TAG_LORE, Tag.TAG_COMPOUND);
+            loreEntries = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
             if(loreEntries==null)
             {
                 loreEntryNumber=0;
