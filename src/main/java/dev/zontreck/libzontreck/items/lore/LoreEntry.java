@@ -1,8 +1,5 @@
 package dev.zontreck.libzontreck.items.lore;
 
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
@@ -41,18 +38,25 @@ public class LoreEntry
         parentTag.add(tag);
     }
 
+    private String bool2str(boolean a){
+        if(a)return "true";
+        else return "false";
+    }
+
     // Only json saving is available. 
     // The NBT Variant should be saved to the mod's custom tag container due to the way lore must be formatted
-    public JsonObjectBuilder saveJson()
+    public String saveJson()
     {
-        JsonObjectBuilder obj = Json.createObjectBuilder();
-        obj.add("bold", bold);
-        obj.add("italic", italic);
-        obj.add("underlined", underlined);
-        obj.add("strikethrough", strikethrough);
-        obj.add("obfuscated", obfuscated);
-        obj.add("color", color);
-        obj.add("text", text);
+        
+        String obj = "{";
+        obj += "\"bold\": " + bool2str(bold)+",";
+        obj += "\"italic\": " + bool2str(italic)+",";
+        obj += "\"underlined\": "+bool2str(underlined)+",";
+        obj += "\"strikethrough\": "+bool2str(strikethrough)+",";
+        obj += "\"obfuscated\": "+bool2str(obfuscated)+",";
+        obj += "\"color\": \""+color+"\",";
+        obj += "\"text\": \""+text+"\"";
+        obj += "}";
 
 
         return obj;

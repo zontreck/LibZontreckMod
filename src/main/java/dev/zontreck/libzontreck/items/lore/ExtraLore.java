@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -37,15 +33,22 @@ public class ExtraLore {
 
     // This json object is what goes inside the actual item lore. This is not the entry used to save the state
     public String saveJson(){
-        String ret = "";
-        JsonObjectBuilder loreEntry = Json.createObjectBuilder();
-        JsonArrayBuilder jab = Json.createArrayBuilder();
-        for (LoreEntry loreEntryx : LoreData) {
-            jab.add(loreEntryx.saveJson());
+        String ret = "{";
+        Iterator<LoreEntry> loreEntries = LoreData.iterator();
+        ret += "\"extra\": [";
+        while(loreEntries.hasNext())
+        {
+            LoreEntry loreEntryx = loreEntries.next();
+            ret += loreEntryx.saveJson();
+
+            if(loreEntries.hasNext())
+            {
+                ret += ",";
+            }
         }
-        loreEntry.add("extra", jab);
-        loreEntry.add("text", "");
-        ret=loreEntry.build().toString();
+        ret += "],";
+        ret += "\"text\": \"\"";
+        ret += "}";
         return ret;
     }
 
