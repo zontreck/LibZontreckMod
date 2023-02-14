@@ -118,6 +118,7 @@ public class WorldPosition
     {
         net.minecraft.world.level.ChunkPos mcChunk = getActualDimension().getChunkAt(Position.asBlockPos()).getPos();
         ChunkPos pos = new ChunkPos(new Vector3(mcChunk.getMinBlockX(),-70,mcChunk.getMinBlockZ()), new Vector3(mcChunk.getMaxBlockX(), 400, mcChunk.getMaxBlockZ()));
+        pos.isSubArea=false;
 
         return pos;
     }
