@@ -10,6 +10,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class Vector3 
 {
+    public static final Vector3 ZERO = new Vector3(0, 0, 0);
+
+
     public double x;
     public double y;
     public double z;
@@ -243,5 +246,34 @@ public class Vector3
     {
         if(x == other.x && y==other.y && z==other.z)return true;
         else return false;
+    }
+
+    
+    public boolean inside(Vector3 point1, Vector3 point2)
+    {
+        if(point1.x <= x && point2.x >= x){
+            if(point1.y <= y && point2.y >= y)
+            {
+                if(point1.z <= z && point2.z >= z)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+    
+    public boolean greater(Vector3 other)
+    {
+        return ((x>other.x) && (y>other.y) && (z>other.z));
+    }
+    public boolean less(Vector3 other)
+    {
+        return ((x<other.x) && (y<other.y) && (z<other.z));
+    }
+    public boolean equal(Vector3 other)
+    {
+        return same(other);
     }
 }

@@ -6,6 +6,8 @@ import net.minecraft.world.phys.Vec2;
 
 public class Vector2
 {
+    public static final Vector2 ZERO = new Vector2(0, 0);
+    
     public float x;
     public float y;
     
@@ -89,5 +91,30 @@ public class Vector2
     {
         if(x == other.x && y==other.y)return true;
         else return false;
+    }
+
+    public boolean inside(Vector2 point1, Vector2 point2)
+    {
+        if(point1.x <= x && point2.x >= x){
+            if(point1.y <= y && point2.y >= y)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean greater(Vector2 other)
+    {
+        return ((x>other.x) && (y>other.y));
+    }
+    public boolean less(Vector2 other)
+    {
+        return ((x>other.x) && (y>other.y));
+    }
+    public boolean equal(Vector2 other)
+    {
+        return same(other);
     }
 }

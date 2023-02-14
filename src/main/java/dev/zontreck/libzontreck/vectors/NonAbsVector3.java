@@ -45,4 +45,19 @@ public class NonAbsVector3
         if(x == other.x && y==other.y && z==other.z)return true;
         else return false;
     }
+    
+    public boolean inside(NonAbsVector3 point1, NonAbsVector3 point2)
+    {
+        if(point1.x <= x && point2.x >= x){
+            if(point1.y <= y && point2.y >= y)
+            {
+                if(point1.z <= z && point2.z >= z)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
