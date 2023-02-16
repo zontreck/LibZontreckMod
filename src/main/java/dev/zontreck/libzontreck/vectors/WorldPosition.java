@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 
 public class WorldPosition
 {
@@ -34,6 +35,11 @@ public class WorldPosition
         Position=pos;
         Dimension=dim;
         calcDimSafe();
+    }
+
+    public WorldPosition(ServerPlayer player)
+    {
+        this(new Vector3(player.position()), player.getLevel());
     }
 
     public WorldPosition(Vector3 pos, ServerLevel lvl)
