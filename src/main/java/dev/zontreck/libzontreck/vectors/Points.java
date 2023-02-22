@@ -1,14 +1,25 @@
 package dev.zontreck.libzontreck.vectors;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
+/**
+ * Two points within the same dimension
+ */
 public class Points {
     public Vector3 Min = Vector3.ZERO;
     public Vector3 Max = Vector3.ZERO;
+    public String dimension = "";
 
-
-    public Points(Vector3 min, Vector3 max)
+    /**
+     * Creates a new set of points
+     * @param min
+     * @param max
+     * @param lvl
+     */
+    public Points(Vector3 min, Vector3 max, Level lvl)
     {
+        dimension = WorldPosition.getDimSafe(lvl);
         if(min.less(max))
         {
             Min=min;
@@ -19,6 +30,10 @@ public class Points {
         }
     }
 
+    /**
+     * Deserializes a points compound tag
+     * @param tag
+     */
     public Points(CompoundTag tag){
         deserialize(tag);
     }
@@ -27,6 +42,7 @@ public class Points {
         CompoundTag tag = new CompoundTag();
         tag.put("min", Min.serialize());
         tag.put("max", Max.serialize());
+        tag.putString("dim", dimension);
         return tag;
     }
 
@@ -34,5 +50,6 @@ public class Points {
     {
         Min = new Vector3(tag.getCompound("min"));
         Max = new Vector3(tag.getCompound("max"));
+        dimension = tag.getString("dim");
     }
 }

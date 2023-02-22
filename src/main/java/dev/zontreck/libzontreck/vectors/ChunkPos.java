@@ -1,21 +1,21 @@
 package dev.zontreck.libzontreck.vectors;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class ChunkPos {
-    public boolean isSubArea;
     public Points points;
     public Vector2 centerPoints;
+    public String dim;
 
-    public ChunkPos(Vector3 point1, Vector3 point2)
+    public ChunkPos(Vector3 point1, Vector3 point2, Level lvl)
     {
-        isSubArea=true;
-        points = new Points(point1, point2);
+        points = new Points(point1, point2, lvl);
+        dim = WorldPosition.getDim(lvl);
     }
 
     public ChunkPos(CompoundTag tag)
     {
-        isSubArea = tag.getBoolean("subarea");
         points = new Points(tag.getCompound("points"));
         centerPoints = new Vector2(tag.getCompound("center"));
     }
@@ -33,9 +33,9 @@ public class ChunkPos {
     public CompoundTag serialize()
     {
         CompoundTag tag = new CompoundTag();
-        tag.putBoolean("subarea", isSubArea);
         tag.put("points", points.serialize());
         tag.put("center", centerPoints.serialize());
+        tag.putString("dim", dim);
 
         return tag;
     }
