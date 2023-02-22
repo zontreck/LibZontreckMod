@@ -3,6 +3,11 @@ package dev.zontreck.libzontreck.util;
 public class BinUtil {
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
+    /**
+     * Converts a byte array to hexadecimal
+     * @param bytes
+     * @return
+     */
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
