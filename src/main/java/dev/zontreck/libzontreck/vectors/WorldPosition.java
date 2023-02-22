@@ -1,7 +1,5 @@
 package dev.zontreck.libzontreck.vectors;
 
-import com.mojang.authlib.yggdrasil.response.UserAttributesResponse.ProfanityFilterPreferences;
-
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
 import dev.zontreck.libzontreck.exceptions.InvalidSideException;
@@ -11,8 +9,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.FilteredText;
-import net.minecraft.util.datafix.fixes.FilteredSignsFix;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 

@@ -11,6 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -51,7 +52,7 @@ public class LibZontreck {
     public static class ForgeEventBus
     {
         @SubscribeEvent
-        public void onPlayerTick(LivingEvent.LivingTickEvent ev)
+        public void onPlayerTick(LivingUpdateEvent ev)
         {
             if(ev.getEntity().level.isClientSide)return;
 
