@@ -36,8 +36,14 @@ public class ItemUtils {
     {
         Integer ret = 0;
 
-        Map<Enchantment, Integer> enchants = getEnchantments(stack);
-        ret=enchants.get(ench);
+        try{
+
+            Map<Enchantment, Integer> enchants = getEnchantments(stack);
+            ret=enchants.get(ench);
+        }catch(Exception e)
+        {
+            ret =0;
+        }
 
         return ret;
     }
