@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.vectors;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 public class ChunkPos {
@@ -8,7 +9,7 @@ public class ChunkPos {
     public Vector2 centerPoints;
     public String dim;
 
-    public ChunkPos(Vector3 point1, Vector3 point2, Level lvl)
+    public ChunkPos(Vector3 point1, Vector3 point2, ServerLevel lvl)
     {
         points = new Points(point1, point2, lvl);
         dim = WorldPosition.getDim(lvl);

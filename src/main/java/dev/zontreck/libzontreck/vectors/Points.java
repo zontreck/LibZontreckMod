@@ -1,7 +1,7 @@
 package dev.zontreck.libzontreck.vectors;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 /**
  * Two points within the same dimension
@@ -17,7 +17,7 @@ public class Points {
      * @param max
      * @param lvl
      */
-    public Points(Vector3 min, Vector3 max, Level lvl)
+    public Points(Vector3 min, Vector3 max, ServerLevel lvl)
     {
         dimension = WorldPosition.getDimSafe(lvl);
         if(min.less(max))
