@@ -43,6 +43,8 @@ public class ItemUtils {
         }catch(Exception e)
         {
             ret =0;
+        }finally{
+            if(ret == null)ret  =0;
         }
 
         return ret;
