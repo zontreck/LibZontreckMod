@@ -7,6 +7,7 @@ import com.mojang.logging.LogUtils;
 import dev.zontreck.libzontreck.events.PlayerChangedPositionEvent;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
+import dev.zontreck.libzontreck.util.DelayedExecutorService;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +35,7 @@ public class LibZontreck {
         // Register the setup method for modloading
         bus.addListener(this::setup);
         
+        bus.register(DelayedExecutorService.getInstance());
         
         MinecraftForge.EVENT_BUS.register(this);
     }

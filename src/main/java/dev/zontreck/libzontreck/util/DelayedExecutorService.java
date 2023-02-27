@@ -15,6 +15,15 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 @EventBusSubscriber(modid=LibZontreck.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class DelayedExecutorService {
     private static int COUNT = 0;
+    private static final DelayedExecutorService inst;
+    static{
+        inst=new DelayedExecutorService();
+    }
+
+    public static DelayedExecutorService getInstance()
+    {
+        return inst;
+    }
     public class DelayedExecution
     {
         public DelayedExecution(Runnable run, long unix) {
