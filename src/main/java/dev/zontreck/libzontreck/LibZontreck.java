@@ -1,18 +1,26 @@
 package dev.zontreck.libzontreck;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
 import dev.zontreck.libzontreck.events.PlayerChangedPositionEvent;
+import dev.zontreck.libzontreck.events.ProfileLoadedEvent;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
+import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.util.DelayedExecutorService;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -25,9 +33,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class LibZontreck {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static final String MOD_ID = "libzontreck";
+    public static final Map<String, Profile> PROFILES;
     public static MinecraftServer THE_SERVER;
     public static VolatilePlayerStorage playerStorage;
     public static boolean ALIVE;
+
+    static{
+        PROFILES = new HashMap<>();
+    }
 
     public LibZontreck(){
         LibZontreck.playerStorage=new VolatilePlayerStorage();
@@ -80,6 +93,18 @@ public class LibZontreck {
                     MinecraftForge.EVENT_BUS.post(pcpe);
                 }
             }
+        }
+
+
+        @SubscribeEvent
+        public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent ev)
+        {
+            if(ev.getEntity().level.isClientSide)return;
+
+            ServerPlayer player = (ServerPlayer)ev.getPlayer();
+            Profile prof = Profile.factory(player);
+
+            MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof));
         }
     }
 }
