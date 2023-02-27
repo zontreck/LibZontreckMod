@@ -13,6 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,13 +26,14 @@ public class LibZontreck {
     public static final String MOD_ID = "libzontreck";
     public static MinecraftServer THE_SERVER;
     public static VolatilePlayerStorage playerStorage;
+    public static boolean ALIVE;
 
     public LibZontreck(){
         LibZontreck.playerStorage=new VolatilePlayerStorage();
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
         bus.addListener(this::setup);
-
+        
         
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -45,6 +47,13 @@ public class LibZontreck {
     public void onServerStarted(final ServerStartedEvent event)
     {
         THE_SERVER = event.getServer();
+        ALIVE=true;
+    }
+
+    @SubscribeEvent
+    public void onServerStopping(final ServerStoppingEvent ev)
+    {
+        ALIVE=false;
     }
 
 
