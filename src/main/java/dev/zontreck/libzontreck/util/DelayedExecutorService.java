@@ -19,6 +19,7 @@ public class DelayedExecutorService {
     static{
         inst=new DelayedExecutorService();
     }
+    private DelayedExecutorService(){}
 
     public static DelayedExecutorService getInstance()
     {

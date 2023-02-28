@@ -48,9 +48,9 @@ public class LibZontreck {
         // Register the setup method for modloading
         bus.addListener(this::setup);
         
-        bus.register(DelayedExecutorService.getInstance());
         
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(DelayedExecutorService.getInstance());
     }
 
     private void setup(final FMLCommonSetupEvent event)
