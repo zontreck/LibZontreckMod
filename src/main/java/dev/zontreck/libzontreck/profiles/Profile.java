@@ -36,8 +36,10 @@ public class Profile {
         {
             try {
                 Files.createDirectory(BASE);
+                LibZontreck.LOGGER.info("Created profiles base directory");
             } catch (IOException e) {
                 e.printStackTrace();
+                LibZontreck.LOGGER.error("Failed to create profiles base directory");
             }
         }
     }
