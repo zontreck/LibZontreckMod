@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -87,6 +88,14 @@ public class LibZontreck {
     public void onServerStopping(final ServerStoppingEvent ev)
     {
         ALIVE=false;
+
+        Iterator<Profile> iProfile = PROFILES.values().iterator();
+        while(iProfile.hasNext())
+        {
+            Profile prof = iProfile.next();
+            iProfile.remove();
+            prof=null;
+        }
     }
 
 }
