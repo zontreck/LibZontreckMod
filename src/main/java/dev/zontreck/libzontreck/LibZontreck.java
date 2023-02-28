@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import dev.zontreck.libzontreck.events.ForgeEventHandlers;
 import dev.zontreck.libzontreck.events.PlayerChangedPositionEvent;
 import dev.zontreck.libzontreck.events.ProfileLoadedEvent;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
@@ -67,6 +68,7 @@ public class LibZontreck {
         
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(DelayedExecutorService.getInstance());
+        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
     }
 
     private void setup(final FMLCommonSetupEvent event)
@@ -87,40 +89,4 @@ public class LibZontreck {
         ALIVE=false;
     }
 
-
-    @Mod.EventBusSubscriber(modid = LibZontreck.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public static class ForgeEventBus
-    {
-        @SubscribeEvent
-        public void onPlayerTick(LivingUpdateEvent ev)
-        {
-            if(ev.getEntity().level.isClientSide)return;
-
-            if(ev.getEntity() instanceof ServerPlayer)
-            {
-                ServerPlayer player = (ServerPlayer)ev.getEntity();
-                PlayerContainer cont = LibZontreck.playerStorage.get(player.getUUID());
-                
-                if(cont.player.positionChanged())
-                {
-                    cont.player.update();
-
-                    PlayerChangedPositionEvent pcpe = new PlayerChangedPositionEvent(player, cont.player.position, cont.player.lastPosition);
-                    MinecraftForge.EVENT_BUS.post(pcpe);
-                }
-            }
-        }
-
-
-        @SubscribeEvent
-        public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent ev)
-        {
-            if(ev.getEntity().level.isClientSide)return;
-
-            ServerPlayer player = (ServerPlayer)ev.getPlayer();
-            Profile prof = Profile.factory(player);
-
-            MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof));
-        }
-    }
 }
