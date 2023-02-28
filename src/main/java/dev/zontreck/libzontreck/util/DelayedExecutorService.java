@@ -44,11 +44,24 @@ public class DelayedExecutorService {
 
     public List<DelayedExecution> EXECUTORS = new ArrayList<>();
 
-    public void schedule(Runnable run, int seconds)
+    public void schedule(final Runnable run, int seconds)
     {
-        long unix = Instant.now().getEpochSecond()+ (seconds);
-        DelayedExecution exe = new DelayedExecution(run,unix);
-        EXECUTORS.add(exe);
+        //long unix = Instant.now().getEpochSecond()+ (seconds);
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run()
+            {
+                run.run();
+            }
+        };
+        repeater.schedule(task, seconds*1000L);
+        //DelayedExecution exe = new DelayedExecution(run,unix);
+        //EXECUTORS.add(exe);
+    }
+
+    private static void stopRepeatingThread()
+    {
+        repeater.cancel();
     }
 
     public void onTick()
@@ -56,10 +69,10 @@ public class DelayedExecutorService {
         if(!LibZontreck.ALIVE)
         {
             LibZontreck.LOGGER.info("Tearing down delayed executor service");
-            
+            DelayedExecutorService.stopRepeatingThread();
             return;
         }
-        Iterator<DelayedExecution> it = EXECUTORS.iterator();
+        /*Iterator<DelayedExecution> it = EXECUTORS.iterator();
         while(it.hasNext())
         {
             DelayedExecution e = it.next();
@@ -70,7 +83,7 @@ public class DelayedExecutorService {
                 tx.setName("DelayedExecutorTask-"+String.valueOf(DelayedExecutorService.getNext()));
                 tx.start();
             }
-        }
+        }*/
     }
 
     public static int getNext()
