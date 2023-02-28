@@ -5,40 +5,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import dev.zontreck.libzontreck.LibZontreck;
-import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 
 public class DelayedExecutorService {
     private static int COUNT = 0;
     private static final DelayedExecutorService inst;
-    private static final Thread repeater;
+    private static final Timer repeater;
     static{
         inst=new DelayedExecutorService();
-
-        repeater = new Thread(new Runnable(){
+        repeater=new Timer();
+        repeater.schedule(new TimerTask(){
             @Override
             public void run()
             {
-                long lastExec = Instant.now().getEpochSecond();
-                lastExec++;
-                while(LibZontreck.ALIVE)
-                {
-                    if(Instant.now().getEpochSecond()>lastExec)
-                    {
-                        lastExec = Instant.now().getEpochSecond()+2;
-
-                        getInstance().onTick();
-                    }
-                }
+                DelayedExecutorService.getInstance().onTick();
+                
             }
-        });
-        repeater.setName("DelayedExecutorService");
-        repeater.start();
+        }, 1000L, 1000L);
     }
     private DelayedExecutorService(){}
 
