@@ -1,5 +1,8 @@
 package dev.zontreck.libzontreck;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +42,20 @@ public class LibZontreck {
     public static VolatilePlayerStorage playerStorage;
     public static boolean ALIVE;
     public static final String FILESTORE = FileTreeDatastore.get();
+    public static final Path BASE_CONFIG;
 
     static{
         PROFILES = new HashMap<>();
+        BASE_CONFIG = FileTreeDatastore.of("libzontreck");
+
+        if(!BASE_CONFIG.toFile().exists())
+        {
+            try {
+                Files.createDirectory(BASE_CONFIG);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public LibZontreck(){

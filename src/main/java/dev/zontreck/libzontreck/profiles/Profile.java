@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
 
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
@@ -28,9 +29,17 @@ public class Profile {
 
     private File accessor;
 
-    public static final Path BASE = FileTreeDatastore.of("libzontreck").resolve("profiles");
+    public static final Path BASE = LibZontreck.BASE_CONFIG.resolve("profiles");
 
     public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile) {
+        if(!BASE.toFile().exists())
+        {
+            try {
+                Files.createDirectory(BASE);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         this.username = username;
         this.prefix = prefix;
         this.nickname = nickname;
