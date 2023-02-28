@@ -3,6 +3,7 @@ package dev.zontreck.libzontreck.util;
 import java.util.UUID;
 
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.chat.ChatColor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -71,5 +72,23 @@ public class ChatHelpers {
     public static void broadcastToAbove(Player ID, Component message, MinecraftServer server)
     {
         broadcastTo(ID.getUUID(), message, server, true);
+    }
+
+    /**
+     * Returns the output with colors applied, and chat entries replaced using [number] as the format
+     * @param input
+     * @param inputs Entries to replace with in input
+     * @return
+     */
+    public static String macroize(String input, String... inputs)
+    {
+        String output = input;
+        for (int i = 0; i < inputs.length; i++) {
+            String inp = inputs[i];
+
+            output = output.replaceAll("\\["+String.valueOf(i)+"]", inp);
+        }
+
+        return ChatColor.doColors(output);
     }
 }
