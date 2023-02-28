@@ -77,6 +77,9 @@ public class Profile {
                     return actual;
                 } catch (IOException e) {
                     throw new UserProfileNotYetExistsException(UUID);
+                } catch (NullPointerException e)
+                {
+                    throw new UserProfileNotYetExistsException(UUID);
                 }
 
             }else {
