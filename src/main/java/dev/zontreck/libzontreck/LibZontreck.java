@@ -15,6 +15,7 @@ import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.util.DelayedExecutorService;
+import dev.zontreck.libzontreck.util.FileTreeDatastore;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,6 +38,7 @@ public class LibZontreck {
     public static MinecraftServer THE_SERVER;
     public static VolatilePlayerStorage playerStorage;
     public static boolean ALIVE;
+    public static final String FILESTORE = FileTreeDatastore.get();
 
     static{
         PROFILES = new HashMap<>();

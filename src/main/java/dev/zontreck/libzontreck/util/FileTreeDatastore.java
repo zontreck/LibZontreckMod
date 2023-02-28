@@ -25,6 +25,11 @@ public class FileTreeDatastore {
         }
     }
 
+    public static String get()
+    {
+        return BASE.toString();
+    }
+
     public static Path of(String nick)
     {
         return BASE.resolve(nick);
