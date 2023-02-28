@@ -106,7 +106,7 @@ public class Profile {
         if(userProfile.toFile().exists())
         {
             // Load profile data
-            File ace = userProfile.resolve("profile.dat").toFile();
+            File ace = userProfile.resolve("profile.nbt").toFile();
             Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace);
             template.commit();
 
