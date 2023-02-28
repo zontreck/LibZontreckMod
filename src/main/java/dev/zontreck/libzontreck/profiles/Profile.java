@@ -29,9 +29,9 @@ public class Profile {
 
     private File accessor;
 
-    public static final Path BASE = LibZontreck.BASE_CONFIG.resolve("profiles");
-
-    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile) {
+    public static final Path BASE;
+    static{
+        BASE = LibZontreck.BASE_CONFIG.resolve("profiles");
         if(!BASE.toFile().exists())
         {
             try {
@@ -40,6 +40,9 @@ public class Profile {
                 e.printStackTrace();
             }
         }
+    }
+
+    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile) {
         this.username = username;
         this.prefix = prefix;
         this.nickname = nickname;
