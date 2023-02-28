@@ -66,7 +66,6 @@ public class LibZontreck {
         
         
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ForgeEventBus());
         MinecraftForge.EVENT_BUS.register(DelayedExecutorService.getInstance());
     }
 
