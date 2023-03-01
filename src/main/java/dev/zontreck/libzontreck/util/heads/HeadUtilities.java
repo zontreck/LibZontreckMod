@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.util;
+package dev.zontreck.libzontreck.util.heads;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,14 +8,15 @@ import java.util.UUID;
 import com.google.gson.Gson;
 
 import dev.zontreck.libzontreck.LibZontreck;
-import dev.zontreck.libzontreck.util.HeadCache.HeadCacheItem;
+import dev.zontreck.libzontreck.util.HttpHelper;
+import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.world.item.ItemStack;
 
 /**
  * Added to showcase Patreon supporters and those who have helped test or provide feedback and suggestions!
  */
 public class HeadUtilities {
-    private static HeadCacheItem cachedLookup(String playerName)
+    protected static HeadCacheItem cachedLookup(String playerName)
     {
         if(HeadCache.CACHE.hasHead(playerName))
         {

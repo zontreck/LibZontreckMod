@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.util;
+package dev.zontreck.libzontreck.util.heads;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.util.ChatHelpers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
@@ -17,6 +18,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class HeadCache
 {
@@ -67,7 +69,7 @@ public class HeadCache
             skullOwner.put("Properties", properties);
             head.addTagElement(PlayerHeadItem.TAG_SKULL_OWNER, skullOwner);
 
-            TextComponent headname = ChatHelpers.macro("!Dark_red![0]'s Head", name);
+            TextComponent headname = ChatHelpers.macro("[0]'s Head", name);
             head.setHoverName(headname);
 
             return head;
@@ -98,6 +100,21 @@ public class HeadCache
         }else {
             CACHE.resetCache();
         }
+
+
+        List<CreditsEntry> creds = new ArrayList<>();
+
+        creds.add(
+            new CreditsEntry(HeadUtilities.cachedLookup("zontreck"), "Aria (zontreck)", "Developer", "Aria is the primary developer and project maintainer"));
+        creds.add(
+            new CreditsEntry(HeadUtilities.cachedLookup("PossumTheWarrior"), "PossumTheWarrior", "Tester", "Poss has helped to test the mods from very early on"));
+        creds.add(
+            new CreditsEntry(HeadUtilities.cachedLookup("GemMD"), "GemMD", "Adviser", "GemMD has provided advise on marketing and development decisions for various mods"));
+
+        CREDITS = creds;
+
+
+        CACHE.compile();
     }
 
     private void initFromCache(CompoundTag tag)
@@ -163,6 +180,17 @@ public class HeadCache
         HeadUtilities.get("zontreck");
         HeadUtilities.get("PossumTheWarrior");
         HeadUtilities.get("GemMD");
+    }
+
+    public List<ItemStack> compiled = new ArrayList<>();
+    public static final List<CreditsEntry> CREDITS;
+    public void compile()
+    {
+        compiled.clear();
+        
+        for (CreditsEntry entry : CREDITS) {
+            compiled.add(entry.compile());
+        }
     }
 
     public boolean hasHead(String playerName)

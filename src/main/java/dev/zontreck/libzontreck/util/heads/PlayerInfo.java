@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.util;
+package dev.zontreck.libzontreck.util.heads;
 
 import java.util.UUID;
 
