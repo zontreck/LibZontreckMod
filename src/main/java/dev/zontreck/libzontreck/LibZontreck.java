@@ -13,14 +13,18 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import dev.zontreck.libzontreck.commands.Commands;
 import dev.zontreck.libzontreck.events.ForgeEventHandlers;
 import dev.zontreck.libzontreck.events.PlayerChangedPositionEvent;
 import dev.zontreck.libzontreck.events.ProfileLoadedEvent;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
+import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.profiles.Profile;
+import dev.zontreck.libzontreck.types.ModMenuTypes;
 import dev.zontreck.libzontreck.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.util.FileTreeDatastore;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,6 +36,7 @@ import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -45,6 +50,10 @@ public class LibZontreck {
     public static boolean ALIVE;
     public static final String FILESTORE = FileTreeDatastore.get();
     public static final Path BASE_CONFIG;
+    public static final String PLAYER_INFO_URL = "https://api.mojang.com/users/profiles/minecraft/";
+	public static final String PLAYER_SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
+
+
 
     static{
         PROFILES = new HashMap<>();
@@ -69,10 +78,12 @@ public class LibZontreck {
         
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+        MinecraftForge.EVENT_BUS.register(new Commands());
     }
 
     private void setup(final FMLCommonSetupEvent event)
     {
+        ModMessages.register();
     }
 
     
@@ -94,6 +105,16 @@ public class LibZontreck {
             Profile prof = iProfile.next();
             iProfile.remove();
             prof=null;
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents
+    {
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent ev)
+        {
+            //MenuScreens.register(ModMenuTypes.CHESTGUI.get(), ChestGuiScreen::new);
         }
     }
 
