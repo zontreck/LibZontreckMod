@@ -4,8 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import dev.zontreck.libzontreck.util.HeadUtilities;
-import dev.zontreck.libzontreck.util.HeadCache.HeadCacheItem;
+import dev.zontreck.libzontreck.util.heads.HeadUtilities;
+import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
