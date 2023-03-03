@@ -12,6 +12,6 @@ public class Commands {
     public void onCommandsRegister(RegisterCommandsEvent ev)
     {
         CreditsCommand.register(ev.getDispatcher());
-        GetHead.register(ev.getDispatcher());
+        //GetHead.register(ev.getDispatcher());
     }
 }
