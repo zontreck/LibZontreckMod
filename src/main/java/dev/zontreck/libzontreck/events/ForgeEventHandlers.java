@@ -4,6 +4,7 @@ import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -41,8 +42,9 @@ public class ForgeEventHandlers {
 
         ServerPlayer player = (ServerPlayer)ev.getPlayer();
         Profile prof = Profile.factory(player);
+        ServerLevel level = player.getLevel();
 
-        MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof));
+        MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof, player, level));
     }
 
     @SubscribeEvent
