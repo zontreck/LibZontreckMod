@@ -1,17 +1,16 @@
 package dev.zontreck.libzontreck.util;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import dev.zontreck.libzontreck.LibZontreck;
 
 
 public class DelayedExecutorService {
-    private static int COUNT = 0;
+    private static AtomicInteger COUNT = new AtomicInteger(0);
     private static final DelayedExecutorService inst;
     private static final Timer repeater;
     static{
@@ -46,6 +45,7 @@ public class DelayedExecutorService {
 
     public void schedule(final Runnable run, int seconds)
     {
+        if(!LibZontreck.ALIVE)return;
         //long unix = Instant.now().getEpochSecond()+ (seconds);
         TimerTask task = new TimerTask() {
             @Override
@@ -88,7 +88,6 @@ public class DelayedExecutorService {
 
     public static int getNext()
     {
-        COUNT++;
-        return COUNT;
+        return COUNT.getAndIncrement();
     }
 }

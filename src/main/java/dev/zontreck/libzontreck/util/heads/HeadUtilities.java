@@ -2,7 +2,6 @@ package dev.zontreck.libzontreck.util.heads;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Scanner;
 import java.util.UUID;
 
 import com.google.gson.Gson;

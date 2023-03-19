@@ -5,36 +5,26 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
+import dev.zontreck.libzontreck.permissions.PermissionStorage;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
 import dev.zontreck.libzontreck.commands.Commands;
 import dev.zontreck.libzontreck.events.ForgeEventHandlers;
-import dev.zontreck.libzontreck.events.PlayerChangedPositionEvent;
-import dev.zontreck.libzontreck.events.ProfileLoadedEvent;
-import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
 import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.profiles.Profile;
-import dev.zontreck.libzontreck.types.ModMenuTypes;
-import dev.zontreck.libzontreck.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.util.FileTreeDatastore;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -52,6 +42,9 @@ public class LibZontreck {
     public static final Path BASE_CONFIG;
     public static final String PLAYER_INFO_URL = "https://api.mojang.com/users/profiles/minecraft/";
 	public static final String PLAYER_SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
+
+
+    public static LogicalSide CURRENT_SIDE;
 
 
 
@@ -92,12 +85,18 @@ public class LibZontreck {
     {
         THE_SERVER = event.getServer();
         ALIVE=true;
+        CURRENT_SIDE = LogicalSide.SERVER;
     }
 
     @SubscribeEvent
     public void onServerStopping(final ServerStoppingEvent ev)
     {
         ALIVE=false;
+        try {
+            PermissionStorage.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         Iterator<Profile> iProfile = PROFILES.values().iterator();
         while(iProfile.hasNext())
@@ -114,6 +113,9 @@ public class LibZontreck {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent ev)
         {
+            LibZontreck.CURRENT_SIDE = LogicalSide.CLIENT;
+            LibZontreck.ALIVE=false; // Prevents loops on the client that are meant for server tick processing
+
             //MenuScreens.register(ModMenuTypes.CHESTGUI.get(), ChestGuiScreen::new);
         }
     }

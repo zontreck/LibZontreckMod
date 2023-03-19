@@ -9,16 +9,13 @@ import java.util.UUID;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.util.ChatHelpers;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class HeadCache
 {

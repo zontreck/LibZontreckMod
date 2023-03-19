@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.attribute.FileAttribute;
-
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.events.ProfileCreatedEvent;
+import dev.zontreck.libzontreck.events.ProfileSavingEvent;
 import dev.zontreck.libzontreck.events.ProfileUnloadedEvent;
 import dev.zontreck.libzontreck.events.ProfileUnloadingEvent;
-import dev.zontreck.libzontreck.util.FileTreeDatastore;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
@@ -30,8 +28,8 @@ public class Profile {
     public int available_vaults;
     public int deaths;
     public ServerPlayer player;
-
     private File accessor;
+    private CompoundTag miscData;
 
     public static final Path BASE;
     static{
@@ -48,7 +46,7 @@ public class Profile {
         }
     }
 
-    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile, int deathCount, ServerPlayer player) {
+    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile, int deathCount, ServerPlayer player, CompoundTag misc) {
         this.username = username;
         this.prefix = prefix;
         this.nickname = nickname;
@@ -60,6 +58,7 @@ public class Profile {
         this.available_vaults=vaults;
         this.deaths=deathCount;
         this.player=player;
+        miscData = misc;
 
 
         this.accessor = vaultFile;
@@ -102,7 +101,7 @@ public class Profile {
 
     private static Profile load(CompoundTag tag, File accessor, ServerPlayer player)
     {
-        return new Profile(tag.getString("user"), tag.getString("prefix"), tag.getString("nick"), tag.getString("nickc"), tag.getString("id"), tag.getString("prefixc"), tag.getString("chatc"), tag.getBoolean("flying"), tag.getInt("vaults"), accessor, tag.getInt("deaths"), player);
+        return new Profile(tag.getString("user"), tag.getString("prefix"), tag.getString("nick"), tag.getString("nickc"), tag.getString("id"), tag.getString("prefixc"), tag.getString("chatc"), tag.getBoolean("flying"), tag.getInt("vaults"), accessor, tag.getInt("deaths"), player, tag.getCompound("misc"));
     }
 
     private static void generateNewProfile(ServerPlayer player)
@@ -113,7 +112,7 @@ public class Profile {
         {
             // Load profile data
             File ace = userProfile.resolve("profile.nbt").toFile();
-            Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace, 0, player);
+            Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace, 0, player, new CompoundTag());
             template.commit();
 
             
@@ -173,6 +172,9 @@ public class Profile {
         serial.putBoolean("flying", flying);
         serial.putInt("vaults", available_vaults);
         serial.putInt("deaths", deaths);
+        ProfileSavingEvent event = new ProfileSavingEvent(this, miscData);
+        MinecraftForge.EVENT_BUS.post(event);
+        serial.put("misc", event.tag);
 
 
 

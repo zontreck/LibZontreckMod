@@ -1,16 +1,11 @@
 package dev.zontreck.libzontreck.util.heads;
 
-import java.util.Properties;
-
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.items.lore.LoreContainer;
 import dev.zontreck.libzontreck.items.lore.LoreEntry;
 import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.item.BookItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.WrittenBookItem;
-import net.minecraft.world.scores.Team;
 
 public class CreditsEntry {
     public HeadCacheItem player;
