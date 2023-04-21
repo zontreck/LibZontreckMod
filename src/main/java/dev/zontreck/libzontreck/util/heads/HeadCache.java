@@ -12,7 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.PlayerHeadItem;
@@ -66,7 +66,7 @@ public class HeadCache
             skullOwner.put("Properties", properties);
             head.addTagElement(PlayerHeadItem.TAG_SKULL_OWNER, skullOwner);
 
-            TextComponent headname = ChatHelpers.macro("[0]'s Head", name);
+            Component headname = ChatHelpers.macro("[0]'s Head", name);
             head.setHoverName(headname);
 
             return head;

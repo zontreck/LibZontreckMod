@@ -4,7 +4,7 @@ import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.lore.LoreContainer;
 import dev.zontreck.libzontreck.lore.LoreEntry;
 import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 public class CreditsEntry {
@@ -27,7 +27,7 @@ public class CreditsEntry {
     public ItemStack compile()
     {
         ItemStack stack = player.getAsItem();
-        stack.setHoverName(new TextComponent(name));
+        stack.setHoverName(Component.literal(name));
         LoreContainer contain = new LoreContainer(stack);
         LoreEntry entry = new LoreEntry();
         entry.text = ChatColor.doColors("!Dark_Purple!Role: "+role);

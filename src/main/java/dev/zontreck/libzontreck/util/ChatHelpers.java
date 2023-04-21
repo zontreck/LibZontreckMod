@@ -5,7 +5,6 @@ import java.util.UUID;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -78,9 +77,9 @@ public class ChatHelpers {
      * @param inputs Entries to replace with in input
      * @return
      */
-    public static TextComponent macro(String input, String... inputs)
+    public static Component macro(String input, String... inputs)
     {
-        return new TextComponent(macroize(input,inputs));
+        return Component.literal(macroize(input,inputs));
     }
     /**
      * Returns the output with colors applied, and chat entries replaced using [number] as the format

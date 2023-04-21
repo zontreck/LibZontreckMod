@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.zontreck.libzontreck.exceptions.InvalidDeserialization;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
@@ -21,9 +22,14 @@ public class Vector3
         return new Vec3(x, y, z);
     }
 
+    public Vec3i asMinecraftVec3i()
+    {
+        return new Vec3i((int) Math.round(x), (int) Math.round(y), (int) Math.round(z));
+    }
+
     public BlockPos asBlockPos()
     {
-        return new BlockPos(asMinecraftVector());
+        return new BlockPos(asMinecraftVec3i());
     }
 
     public Vector3()

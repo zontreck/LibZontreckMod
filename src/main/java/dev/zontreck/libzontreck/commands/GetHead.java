@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 public class GetHead {
     public static void register(CommandDispatcher<CommandSourceStack> dispatch)
     {
-        dispatch.register(Commands.literal("aria_debug_get_head").executes(c-> getHead(c.getSource(), c.getSource().getEntity().getName().getContents())).then(Commands.argument("name", StringArgumentType.string()).executes(c -> getHead(c.getSource(), StringArgumentType.getString(c, "name")))));
+        dispatch.register(Commands.literal("aria_debug_get_head").executes(c-> getHead(c.getSource(), c.getSource().getEntity().getName().getString())).then(Commands.argument("name", StringArgumentType.string()).executes(c -> getHead(c.getSource(), StringArgumentType.getString(c, "name")))));
         
     }
 

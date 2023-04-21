@@ -49,7 +49,7 @@ public class S2CPlaySoundPacket implements IPacket
 
         ctx.enqueueWork(()->{
             // We are on the client now, enqueue the sound!
-            SoundEvent ev = new SoundEvent(sound);
+            SoundEvent ev = SoundEvent.createFixedRangeEvent(sound, 2.0f);
             // Play sound for player!
             Minecraft.getInstance().player.playSound(ev, 1, BinUtil.getARandomInstance().nextFloat(0, 1));
         });

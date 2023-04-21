@@ -1,7 +1,7 @@
 package dev.zontreck.libzontreck.chat;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.HoverEvent.Action;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,7 +17,7 @@ public class HoverTip {
      */
     public static HoverEvent get(String text)
     {
-        return new HoverEvent(Action.SHOW_TEXT, new TextComponent(text));
+        return new HoverEvent(Action.SHOW_TEXT, Component.literal(text));
     }
 
     /**

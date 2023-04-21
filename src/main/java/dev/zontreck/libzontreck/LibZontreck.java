@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.libzontreck.currency.CurrencyHelper;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -72,6 +74,7 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         MinecraftForge.EVENT_BUS.register(new Commands());
+        EventBus.BUS.register(CurrencyHelper.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

@@ -1,13 +1,17 @@
 package dev.zontreck.libzontreck.events;
 
+import dev.zontreck.ariaslib.events.Event;
+import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.currency.events.CurrencyBalanceCheckEvent;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeEventHandlers {
     
     @SubscribeEvent
-    public void onPlayerTick(LivingUpdateEvent ev)
+    public void onPlayerTick(LivingEvent.LivingTickEvent ev)
     {
         if(ev.getEntity().level.isClientSide)return;
 
@@ -40,11 +44,19 @@ public class ForgeEventHandlers {
     {
         if(ev.getEntity().level.isClientSide)return;
 
-        ServerPlayer player = (ServerPlayer)ev.getPlayer();
+        ServerPlayer player = (ServerPlayer)ev.getEntity();
         Profile prof = Profile.factory(player);
         ServerLevel level = player.getLevel();
 
         MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof, player, level));
+
+        DelayedExecutorService.getInstance().schedule(new Runnable() {
+            @Override
+            public void run() {
+                CurrencyBalanceCheckEvent event= new CurrencyBalanceCheckEvent(ev.getEntity());
+                EventBus.BUS.post(event);
+            }
+        }, 10);
     }
 
     @SubscribeEvent
