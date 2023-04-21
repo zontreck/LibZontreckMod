@@ -2,7 +2,6 @@ package dev.zontreck.libzontreck.vectors;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 
 public class ChunkPos {
     public Points points;

@@ -1,8 +1,8 @@
 package dev.zontreck.libzontreck.util.heads;
 
 import dev.zontreck.libzontreck.chat.ChatColor;
-import dev.zontreck.libzontreck.items.lore.LoreContainer;
-import dev.zontreck.libzontreck.items.lore.LoreEntry;
+import dev.zontreck.libzontreck.lore.LoreContainer;
+import dev.zontreck.libzontreck.lore.LoreEntry;
 import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;

@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.items.lore;
+package dev.zontreck.libzontreck.lore;
 
 public enum LoreType {
     UNKNOWN((byte) 0x00),

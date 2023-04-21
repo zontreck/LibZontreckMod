@@ -5,13 +5,10 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import dev.zontreck.libzontreck.util.heads.HeadUtilities;
-import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PlayerHeadItem;
 
 public class GetHead {
     public static void register(CommandDispatcher<CommandSourceStack> dispatch)

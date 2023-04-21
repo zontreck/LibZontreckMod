@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.items.lore;
+package dev.zontreck.libzontreck.lore;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

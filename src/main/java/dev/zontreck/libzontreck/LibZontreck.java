@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import dev.zontreck.libzontreck.permissions.PermissionStorage;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
+import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.commands.Commands;
 import dev.zontreck.libzontreck.events.ForgeEventHandlers;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
@@ -37,7 +37,7 @@ public class LibZontreck {
     public static final Map<String, Profile> PROFILES;
     public static MinecraftServer THE_SERVER;
     public static VolatilePlayerStorage playerStorage;
-    public static boolean ALIVE;
+    public static boolean ALIVE=true;
     public static final String FILESTORE = FileTreeDatastore.get();
     public static final Path BASE_CONFIG;
     public static final String PLAYER_INFO_URL = "https://api.mojang.com/users/profiles/minecraft/";
@@ -92,11 +92,7 @@ public class LibZontreck {
     public void onServerStopping(final ServerStoppingEvent ev)
     {
         ALIVE=false;
-        try {
-            PermissionStorage.save();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        DelayedExecutorService.stop();
 
         Iterator<Profile> iProfile = PROFILES.values().iterator();
         while(iProfile.hasNext())
@@ -111,10 +107,10 @@ public class LibZontreck {
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent ev)
-        {
+        public static void onClientSetup(FMLClientSetupEvent ev) {
             LibZontreck.CURRENT_SIDE = LogicalSide.CLIENT;
-            LibZontreck.ALIVE=false; // Prevents loops on the client that are meant for server tick processing
+            LibZontreck.ALIVE = false; // Prevents loops on the client that are meant for server tick processing
+
 
             //MenuScreens.register(ModMenuTypes.CHESTGUI.get(), ChestGuiScreen::new);
         }

@@ -1,4 +1,4 @@
-package dev.zontreck.libzontreck.items.lore;
+package dev.zontreck.libzontreck.lore;
 
 import java.util.ArrayList;
 import java.util.Iterator;

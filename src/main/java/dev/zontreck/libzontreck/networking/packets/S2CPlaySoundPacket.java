@@ -2,7 +2,6 @@ package dev.zontreck.libzontreck.networking.packets;
 
 import java.util.function.Supplier;
 
-import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.util.BinUtil;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import net.minecraft.client.Minecraft;

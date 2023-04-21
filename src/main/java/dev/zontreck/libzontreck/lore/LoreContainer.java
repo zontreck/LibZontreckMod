@@ -1,11 +1,10 @@
-package dev.zontreck.libzontreck.items.lore;
+package dev.zontreck.libzontreck.lore;
 
 import dev.zontreck.libzontreck.chat.ChatColor;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.nbt.TagTypes;
 import net.minecraft.world.item.ItemStack;
 
 public class LoreContainer {

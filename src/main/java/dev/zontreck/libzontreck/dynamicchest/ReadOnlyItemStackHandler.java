@@ -2,7 +2,6 @@ package dev.zontreck.libzontreck.dynamicchest;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class ReadOnlyItemStackHandler extends ItemStackHandler

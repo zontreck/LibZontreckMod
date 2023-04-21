@@ -12,6 +12,11 @@ archivesBaseName = 'libzontreck'
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+configurations {
+    provided
+    compile.extendsFrom(provided)
+}
+
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
@@ -112,6 +117,11 @@ repositories {
         url = "https://cursemaven.com"
     }
 
+    maven {
+        name = "zontreck Maven"
+        url = "https://maven.zontreck.dev"
+    }
+
 
 }
 
@@ -132,6 +142,9 @@ dependencies {
     //runtimeOnly fg.deobf("curse.maven:luckperms-431733:3828099")
     //implementation fg.deobf("blank:LuckPerms:Forge-5.4.12")
 
+    provided "dev.zontreck:LibAC:1.1.1"
+    implementation "dev.zontreck:LibAC:1.1.1"
+
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
@@ -139,6 +152,9 @@ dependencies {
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    from {
+        configurations.provided.asFileTree.collect{zipTree(it)}
+    }
     manifest {
         attributes([
                 "Specification-Title"     : project.name,
