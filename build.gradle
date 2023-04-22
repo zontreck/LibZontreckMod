@@ -181,9 +181,14 @@ jar.finalizedBy('reobfJar')
 // publish.dependsOn('reobfJar')
 
 task devJar(type: Jar) {
+
     from sourceSets.main.output
     from sourceSets.main.allJava
     classifier = 'dev'
+
+    from {
+        configurations.provided.asFileTree.collect{zipTree(it)}
+    }
     manifest {
         attributes([
             "Specification-Title": project.name,
