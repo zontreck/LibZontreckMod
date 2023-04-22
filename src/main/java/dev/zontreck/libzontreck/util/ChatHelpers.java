@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -100,5 +100,29 @@ public class ChatHelpers {
         }
 
         return ChatColor.doColors(output);
+    }
+
+    /**
+     * Merges the styles
+     * @param comp The original component
+     * @param ce Click event to add to the component
+     * @return Component + Merged Event
+     */
+    public static Component applyClickEvent(Component comp, ClickEvent ce)
+    {
+        MutableComponent mc = MutableComponent.create(comp.getContents());
+        return ComponentUtils.mergeStyles(mc, comp.getStyle().withClickEvent(ce));
+    }
+
+    /**
+     * Merges the styles
+     * @param comp The original component
+     * @param ce Hover event to add to the component
+     * @return Component + Merged Event
+     */
+    public static Component applyHoverEvent(Component comp, HoverEvent ce)
+    {
+        MutableComponent mc = MutableComponent.create(comp.getContents());
+        return ComponentUtils.mergeStyles(mc, comp.getStyle().withHoverEvent(ce));
     }
 }
