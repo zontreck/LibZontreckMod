@@ -31,16 +31,40 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+/**
+ * SERVER-SIDE ONLY
+ */
 public class Bank
 {
 	public static final Path BANK_DATA;
+	public static Account SYSTEM;
+
+	public static final UUID SYSTEM_ACCOUNT_ID;
 
 	static {
+		SYSTEM_ACCOUNT_ID = new UUID(0x9fc8, 0x829fcc);
 		BANK_DATA = LibZontreck.BASE_CONFIG.resolve("bank.nbt");
 	}
 
 	private Bank(){
-		load();
+		if(ServerUtilities.isServer())
+			load();
+		else {
+			if(BANK_DATA.toFile().exists())
+				BANK_DATA.toFile().delete();
+
+			return;
+		}
+
+		SYSTEM = getAccount(SYSTEM_ACCOUNT_ID);
+		if(SYSTEM == null)
+		{
+			makeAccount(SYSTEM_ACCOUNT_ID);
+			SYSTEM=getAccount(SYSTEM_ACCOUNT_ID);
+
+			SYSTEM.balance = 0xFFFFFF;
+			instance.commit();
+		}
 	}
 
 	/**
