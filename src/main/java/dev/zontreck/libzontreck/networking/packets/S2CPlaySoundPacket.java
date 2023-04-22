@@ -6,6 +6,7 @@ import dev.zontreck.libzontreck.util.BinUtil;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -25,17 +26,15 @@ public class S2CPlaySoundPacket implements IPacket
     public S2CPlaySoundPacket(ResourceLocation loc) {
         sound=loc;
     }
+    public S2CPlaySoundPacket(){}
 
     @Override
     public void deserialize(CompoundTag data) {
-        // Deserializes the play sound packet
-        throw new UnsupportedOperationException("This operation is not supported in the play sound packet!");
+
     }
 
     @Override
     public void serialize(CompoundTag data) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serialize'");
     }
 
     @Override

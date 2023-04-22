@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.networking.packets.IPacket;
 import net.minecraft.network.FriendlyByteBuf;
@@ -39,7 +40,7 @@ public class ServerUtilities
         channel.messageBuilder(type, ModMessages.id(), packet.getDirection())
             .decoder(decoder)
             .encoder(X::toBytes)
-            .consumer(X::handle)
+            .consumerMainThread(X::handle)
             .add();
     }
 
@@ -73,5 +74,12 @@ public class ServerUtilities
     public static boolean isClient()
     {
         return !isServer();
+    }
+
+    public static boolean playerIsOffline(UUID ID) throws InvalidSideException {
+        if(isClient())throw new InvalidSideException("This can only be called on the server");
+
+        if(LibZontreck.THE_SERVER.getPlayerList().getPlayer(ID) == null) return true;
+        else return false;
     }
 }

@@ -12,19 +12,20 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Networking system!
  */
 public class ModMessages {
     private static SimpleChannel INSTANCE;
-    private static int PACKET_ID=0;
     /**
-     * INTERNAL USE ONLY. DO NOT USE THIS, IF YOU ARE NOT LIBZONTRECK!!!!!!
-     * @return
+     * INTERNAL USE ONLY
      */
+    private static AtomicInteger PACKET_ID=new AtomicInteger(0);
     public static int id()
     {
-        return PACKET_ID++;
+        return PACKET_ID.getAndIncrement();
     }
     public static void register()
     {
@@ -44,11 +45,12 @@ public class ModMessages {
             packet.register(net);
         }
 
-        net.messageBuilder(ChestGUIOpenC2S.class, id(), NetworkDirection.PLAY_TO_SERVER)
+        net.messageBuilder(ChestGUIOpenC2S.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_SERVER)
             .decoder(ChestGUIOpenC2S::new)
             .encoder(ChestGUIOpenC2S::toBytes)
-            .consumer(ChestGUIOpenC2S::handle)
+            .consumerMainThread(ChestGUIOpenC2S::handle)
             .add();
+
 
     }
 

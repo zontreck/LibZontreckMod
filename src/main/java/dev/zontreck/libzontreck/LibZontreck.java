@@ -6,9 +6,12 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
 import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
+import dev.zontreck.libzontreck.networking.NetworkEvents;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -44,6 +47,7 @@ public class LibZontreck {
     public static final Path BASE_CONFIG;
     public static final String PLAYER_INFO_URL = "https://api.mojang.com/users/profiles/minecraft/";
 	public static final String PLAYER_SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
+    public static final UUID NULL_ID;
 
 
     public static LogicalSide CURRENT_SIDE;
@@ -51,6 +55,7 @@ public class LibZontreck {
 
 
     static{
+        NULL_ID = new UUID(0,0);
         PROFILES = new HashMap<>();
         BASE_CONFIG = FileTreeDatastore.of("libzontreck");
 
@@ -74,7 +79,9 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         MinecraftForge.EVENT_BUS.register(new Commands());
+        MinecraftForge.EVENT_BUS.register(new NetworkEvents());
         EventBus.BUS.register(CurrencyHelper.class);
+        EventBus.BUS.register(Bank.class);
     }
 
     private void setup(final FMLCommonSetupEvent event)

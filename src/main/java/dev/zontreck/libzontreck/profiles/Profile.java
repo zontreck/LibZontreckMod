@@ -27,11 +27,14 @@ public class Profile {
     public Boolean flying;
     public int available_vaults;
     public int deaths;
+
+
     public ServerPlayer player;
     private File accessor;
     private CompoundTag miscData;
 
     public static final Path BASE;
+    public static final Profile SYSTEM;
     static{
         BASE = LibZontreck.BASE_CONFIG.resolve("profiles");
         if(!BASE.toFile().exists())
@@ -44,6 +47,8 @@ public class Profile {
                 LibZontreck.LOGGER.error("Failed to create profiles base directory");
             }
         }
+
+        SYSTEM = new Profile("SYSTEM", "", "SYSTEM", ChatColor.DARK_RED, LibZontreck.NULL_ID.toString(), "", "", false, 0, null, 0, null, null);
     }
 
     public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile, int deathCount, ServerPlayer player, CompoundTag misc) {

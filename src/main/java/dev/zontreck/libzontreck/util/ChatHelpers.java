@@ -45,6 +45,9 @@ public class ChatHelpers {
             public void run()
             {
                 ServerPlayer play = server.getPlayerList().getPlayer(ID);
+                if(play==null)return;
+
+
                 play.displayClientMessage(message, actionBar);
 
                 LibZontreck.LOGGER.info("[SERVER] -> ["+play.getName().getContents()+"] "+message.getContents());

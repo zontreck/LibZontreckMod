@@ -1,11 +1,13 @@
 package dev.zontreck.libzontreck.events;
 
-import dev.zontreck.ariaslib.events.Event;
 import dev.zontreck.ariaslib.events.EventBus;
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
-import dev.zontreck.libzontreck.currency.events.CurrencyBalanceCheckEvent;
+import dev.zontreck.libzontreck.currency.Account;
+import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
+import dev.zontreck.libzontreck.networking.ModMessages;
+import dev.zontreck.libzontreck.networking.packets.S2CWalletInitialSyncPacket;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
 import net.minecraft.server.level.ServerLevel;
@@ -53,8 +55,8 @@ public class ForgeEventHandlers {
         DelayedExecutorService.getInstance().schedule(new Runnable() {
             @Override
             public void run() {
-                CurrencyBalanceCheckEvent event= new CurrencyBalanceCheckEvent(ev.getEntity());
-                EventBus.BUS.post(event);
+                // Check player wallet, then send wallet to client
+                ModMessages.sendToPlayer(new S2CWalletInitialSyncPacket(player.getUUID()), player);
             }
         }, 10);
     }
