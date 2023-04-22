@@ -80,7 +80,7 @@ public class ChatHelpers {
      * @param inputs Entries to replace with in input
      * @return
      */
-    public static Component macro(String input, String... inputs)
+    public static MutableComponent macro(String input, String... inputs)
     {
         return Component.literal(macroize(input,inputs));
     }
@@ -108,10 +108,9 @@ public class ChatHelpers {
      * @param ce Click event to add to the component
      * @return Component + Merged Event
      */
-    public static Component applyClickEvent(Component comp, ClickEvent ce)
+    public static MutableComponent applyClickEvent(MutableComponent comp, ClickEvent ce)
     {
-        MutableComponent mc = MutableComponent.create(comp.getContents());
-        return ComponentUtils.mergeStyles(mc, comp.getStyle().withClickEvent(ce));
+        return comp.setStyle(comp.getStyle().withClickEvent(ce));
     }
 
     /**
@@ -120,9 +119,8 @@ public class ChatHelpers {
      * @param ce Hover event to add to the component
      * @return Component + Merged Event
      */
-    public static Component applyHoverEvent(Component comp, HoverEvent ce)
+    public static MutableComponent applyHoverEvent(MutableComponent comp, HoverEvent ce)
     {
-        MutableComponent mc = MutableComponent.create(comp.getContents());
-        return ComponentUtils.mergeStyles(mc, comp.getStyle().withHoverEvent(ce));
+        return comp.setStyle(comp.getStyle().withHoverEvent(ce));
     }
 }
