@@ -1,7 +1,10 @@
 package dev.zontreck.libzontreck.currency;
 
 import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.currency.events.TransactionHistoryFlushEvent;
+import dev.zontreck.libzontreck.profiles.Profile;
+import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -18,6 +21,9 @@ public class Account
 	public List<Transaction> history;
 	public int balance;
 
+	public String accountName = "";
+	public boolean isPlayer=true;
+
 	public AccountReference getRef()
 	{
 		return new AccountReference(player_id);
@@ -28,6 +34,20 @@ public class Account
 		player_id=ID;
 		history=new ArrayList<>();
 		balance=0;
+		if(isValidPlayer()) {
+			try {
+				Profile prof = Profile.get_profile_of(ID.toString());
+				accountName = prof.name_color + prof.nickname;
+				isPlayer=true;
+			} catch (UserProfileNotYetExistsException e) {
+				accountName = ChatColor.doColors("!Dark_Red!SYSTEM!White!");
+				isPlayer=false;
+			}
+
+		} else {
+			accountName = ChatColor.doColors("!Dark_Red!SYSTEM!White!");
+			isPlayer=false;
+		}
 	}
 
 	public CompoundTag save()
@@ -42,6 +62,8 @@ public class Account
 		}
 
 		tag.put("history", txs);
+		tag.putString("name", accountName);
+		tag.putBoolean("player", isPlayer);
 
 		return tag;
 	}
@@ -50,6 +72,8 @@ public class Account
 	{
 		player_id = NbtUtils.loadUUID(tag.get("id"));
 		balance = tag.getInt("balance");
+		accountName = tag.getString("name");
+		isPlayer = tag.getBoolean("player");
 		history=new ArrayList<>();
 		ListTag lst = tag.getList("history", Tag.TAG_COMPOUND);
 		for(Tag t : lst){
@@ -80,6 +104,6 @@ public class Account
 	 */
 	public boolean isValidPlayer()
 	{
-		return !player_id.equals(new UUID(0,0));
+		return isPlayer;
 	}
 }

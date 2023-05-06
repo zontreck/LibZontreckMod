@@ -139,7 +139,7 @@ public class Bank
 	 * @param tx The transaction being attempted
 	 * @return True if the transaction has been accepted. False if the transaction was rejected, or insufficient funds.
 	 */
-	public static boolean postTx(Transaction tx) throws InvalidSideException {
+	protected static boolean postTx(Transaction tx) throws InvalidSideException {
 		if(ServerUtilities.isClient())return false;
 		TransactionEvent ev = new TransactionEvent(tx);
 		if(EventBus.BUS.post(ev))

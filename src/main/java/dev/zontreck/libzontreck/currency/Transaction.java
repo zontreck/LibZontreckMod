@@ -1,5 +1,6 @@
 package dev.zontreck.libzontreck.currency;
 
+import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 
@@ -38,5 +39,17 @@ public class Transaction
 		this.to = to.getRef();
 		this.amount=amount;
 		timestamp = ts;
+	}
+
+	/**
+	 * Submits the transaction to the bank to be processed
+	 * @return True if the transaction was successfully submitted.
+	 */
+	public boolean submit(){
+		try {
+			return Bank.postTx(this);
+		} catch (InvalidSideException e) {
+			return false;
+		}
 	}
 }

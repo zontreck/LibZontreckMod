@@ -1,6 +1,8 @@
 package dev.zontreck.libzontreck.util;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BinUtil {
@@ -19,6 +21,32 @@ public class BinUtil {
             hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static byte[] hexToBytes(String hexStr)
+    {
+        List<Byte> bList = new ArrayList<>();
+        for(int i=0;i<hexStr.length();i+=2)
+        {
+            bList.add((byte)(
+                    (Character.digit(hexStr.charAt(i), 16)<<4) +
+                            (Character.digit(hexStr.charAt(i+1), 16))
+                    ));
+        }
+
+        return byteArray(bList);
+    }
+
+    public static byte[] byteArray(List<Byte> b)
+    {
+        byte[] ret = new byte[b.size()];
+        int i=0;
+        for(byte bx : b)
+        {
+            ret[i] = bx;
+            i++;
+        }
+        return ret;
     }
 
     /**

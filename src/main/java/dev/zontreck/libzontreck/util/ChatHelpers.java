@@ -1,5 +1,7 @@
 package dev.zontreck.libzontreck.util;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import dev.zontreck.libzontreck.LibZontreck;
@@ -72,6 +74,33 @@ public class ChatHelpers {
     public static void broadcastToAbove(Player ID, Component message, MinecraftServer server)
     {
         broadcastTo(ID.getUUID(), message, server, true);
+    }
+
+    public static String hashOfMd5(String input) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        md5.update(input.getBytes());
+        return asHex(md5.digest());
+    }
+    public static String hashOfSha256(String input) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("sha-256");
+        md5.update(input.getBytes());
+        return asHex(md5.digest());
+    }
+
+    public static String hashOfMd5(byte[] input) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("md5");
+        md5.update(input);
+        return asHex(md5.digest());
+    }
+    public static String hashOfSha256(byte[] input) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("sha-256");
+        md5.update(input);
+        return asHex(md5.digest());
+    }
+
+    public static String asHex(byte[] input)
+    {
+        return BinUtil.bytesToHex(input);
     }
 
     /**
