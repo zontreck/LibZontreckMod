@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.events;
 
 import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.ariaslib.terminal.Task;
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.currency.Account;
@@ -52,7 +53,7 @@ public class ForgeEventHandlers {
 
         MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof, player, level));
 
-        DelayedExecutorService.getInstance().schedule(new Runnable() {
+        DelayedExecutorService.getInstance().schedule(new Task("send-msg", true) {
             @Override
             public void run() {
                 // Check player wallet, then send wallet to client
