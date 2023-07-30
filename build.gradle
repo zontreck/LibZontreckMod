@@ -105,7 +105,11 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    mavenCentral()
+    //mavenCentral()
+    maven {
+        name = "Aria's Creations Caches"
+        url = "https://maven.zontreck.dev/repository/internal"
+    }
     // Put repositories for dependencies here
     // ForgeGradle automatically adds the Forge maven and Maven Central for you
 
@@ -114,14 +118,14 @@ repositories {
          dir 'libs'
     }
     
-    maven {
-        name = "CurseMaven"
-        url = "https://cursemaven.com"
-    }
+    //maven {
+    //    name = "CurseMaven"
+    //    url = "https://cursemaven.com"
+    //}
 
     maven {
         name = "zontreck Maven"
-        url = "https://maven.zontreck.dev"
+        url = "https://maven.zontreck.dev/repository/zontreck"
     }
 
 
@@ -205,6 +209,7 @@ task devJar(type: Jar) {
 devJar.finalizedBy('reobfJar')
 
 
+def MAVEN_PASSWORD_PROPERTY = "AriasCreationsMavenPassword"
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -214,7 +219,14 @@ publishing {
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            url = "https://maven.zontreck.dev/repository/zontreck"
+            name = "ariascreations"
+            if (project.findProperty(MAVEN_PASSWORD_PROPERTY) != null) {
+                credentials {
+                    username = "admin"
+                    password = project.findProperty(MAVEN_PASSWORD_PROPERTY)
+                }
+            }
         }
     }
 }
