@@ -81,6 +81,7 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(new Commands());
         MinecraftForge.EVENT_BUS.register(new NetworkEvents());
 
+        Bus.Reset();
 
         Bus.Register(CurrencyHelper.class, null);
         Bus.Register(Bank.class, null);

@@ -94,13 +94,7 @@ public class Account
 		LongTermTransactionHistoryRecord rec = LongTermTransactionHistoryRecord.of(player_id);
 		rec.addHistory(history);
 		rec.commit();
-		try {
-			Bus.Post(new TransactionHistoryFlushEvent(this, rec, history));
-		} catch (InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
+		Bus.Post(new TransactionHistoryFlushEvent(this, rec, history));
 		rec = null;
 		history = new ArrayList<>();
 	}

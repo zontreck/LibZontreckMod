@@ -84,10 +84,6 @@ public class Bank
 			Bus.Post(new BankReadyEvent());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		} catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -132,13 +128,7 @@ public class Bank
 			instance.accounts.add(new Account(ID));
 
 			instance.commit();
-			try {
-				Bus.Post(new BankAccountCreatedEvent(getAccount(ID)));
-			} catch (InvocationTargetException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			}
+			Bus.Post(new BankAccountCreatedEvent(getAccount(ID)));
 		}else {
         }
 	}

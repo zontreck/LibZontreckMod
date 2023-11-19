@@ -63,13 +63,7 @@ public class S2CWalletUpdatedPacket implements  IPacket
 		return ServerUtilities.handlePacket(supplier, new Runnable() {
 			@Override
 			public void run() {
-				try {
-					Bus.Post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
-				} catch (InvocationTargetException e) {
-					throw new RuntimeException(e);
-				} catch (IllegalAccessException e) {
-					throw new RuntimeException(e);
-				}
+				Bus.Post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
 
 			}
 		});
