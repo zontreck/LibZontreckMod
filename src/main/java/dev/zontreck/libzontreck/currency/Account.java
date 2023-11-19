@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.currency;
 
-import dev.zontreck.ariaslib.events.EventBus;
+
+import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.currency.events.TransactionHistoryFlushEvent;
 import dev.zontreck.libzontreck.profiles.Profile;
@@ -11,6 +12,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -88,12 +90,17 @@ public class Account
 	 * When the TX history grows beyond 20, the history should clear and it should get transferred to the long-term tx history storage. That file is not retained in memory, and only gets loaded when clearing to merge the lists. It is immediately saved and unloaded
 	 * @see LongTermTransactionHistoryRecord
 	 */
-	public void flushTxHistory()
-	{
+	public void flushTxHistory() {
 		LongTermTransactionHistoryRecord rec = LongTermTransactionHistoryRecord.of(player_id);
 		rec.addHistory(history);
 		rec.commit();
-		EventBus.BUS.post(new TransactionHistoryFlushEvent(this, rec, history));
+		try {
+			Bus.Post(new TransactionHistoryFlushEvent(this, rec, history));
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
 		rec = null;
 		history = new ArrayList<>();
 	}

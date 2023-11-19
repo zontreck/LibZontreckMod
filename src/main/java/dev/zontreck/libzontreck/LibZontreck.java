@@ -8,7 +8,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
-import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.ariaslib.util.DelayedExecutorService;
+import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
 import dev.zontreck.libzontreck.networking.NetworkEvents;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.commands.Commands;
 import dev.zontreck.libzontreck.events.ForgeEventHandlers;
 import dev.zontreck.libzontreck.memory.VolatilePlayerStorage;
@@ -80,8 +80,10 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         MinecraftForge.EVENT_BUS.register(new Commands());
         MinecraftForge.EVENT_BUS.register(new NetworkEvents());
-        EventBus.BUS.register(CurrencyHelper.class);
-        EventBus.BUS.register(Bank.class);
+
+
+        Bus.Register(CurrencyHelper.class, null);
+        Bus.Register(Bank.class, null);
     }
 
     private void setup(final FMLCommonSetupEvent event)

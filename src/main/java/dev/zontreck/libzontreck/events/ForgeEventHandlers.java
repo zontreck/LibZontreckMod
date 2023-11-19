@@ -1,6 +1,5 @@
 package dev.zontreck.libzontreck.events;
 
-import dev.zontreck.ariaslib.events.EventBus;
 import dev.zontreck.ariaslib.terminal.Task;
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
@@ -25,11 +24,10 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onPlayerTick(LivingEvent.LivingTickEvent ev)
     {
-        if(ev.getEntity().level.isClientSide)return;
+        if(ev.getEntity().level().isClientSide) return;
 
-        if(ev.getEntity() instanceof ServerPlayer)
+        if(ev.getEntity() instanceof ServerPlayer player)
         {
-            ServerPlayer player = (ServerPlayer)ev.getEntity();
             PlayerContainer cont = LibZontreck.playerStorage.get(player.getUUID());
             
             if(cont.player.positionChanged())
@@ -45,11 +43,11 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onPlayerJoin(final PlayerEvent.PlayerLoggedInEvent ev)
     {
-        if(ev.getEntity().level.isClientSide)return;
+        if(ev.getEntity().level().isClientSide)return;
 
         ServerPlayer player = (ServerPlayer)ev.getEntity();
         Profile prof = Profile.factory(player);
-        ServerLevel level = player.getLevel();
+        ServerLevel level = player.serverLevel();
 
         MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof, player, level));
 
@@ -65,7 +63,7 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onLeave(final PlayerEvent.PlayerLoggedOutEvent ev)
     {
-        if(ev.getEntity().level.isClientSide)return;
+        if(ev.getEntity().level().isClientSide)return;
         // Get player profile, send disconnect alert, then commit profile and remove it from memory
         Profile px=null;
         try {

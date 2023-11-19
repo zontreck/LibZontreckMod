@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.currency.events;
 
-import dev.zontreck.ariaslib.events.Event;
+
+import dev.zontreck.eventsbus.Event;
 import dev.zontreck.libzontreck.currency.Account;
 import dev.zontreck.libzontreck.currency.LongTermTransactionHistoryRecord;
 import dev.zontreck.libzontreck.currency.Transaction;
@@ -18,10 +19,5 @@ public class TransactionHistoryFlushEvent extends Event
 		associatedAccount=act;
 		this.txHistory=txHistory;
 		this.flushed=flushed;
-	}
-
-	@Override
-	public boolean isCancellable() {
-		return false;
 	}
 }

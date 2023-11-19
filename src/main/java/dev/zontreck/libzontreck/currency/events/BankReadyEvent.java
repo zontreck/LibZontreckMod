@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.currency.events;
 
-import dev.zontreck.ariaslib.events.Event;
+
+import dev.zontreck.eventsbus.Event;
 
 /**
  * Contains no information by itself, it only signals that the Bank is open for business
@@ -10,8 +11,4 @@ import dev.zontreck.ariaslib.events.Event;
 public class BankReadyEvent extends Event
 {
 
-	@Override
-	public boolean isCancellable() {
-		return false;
-	}
 }

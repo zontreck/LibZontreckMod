@@ -4,6 +4,7 @@ import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 public class Transaction
@@ -48,7 +49,7 @@ public class Transaction
 	public boolean submit(){
 		try {
 			return Bank.postTx(this);
-		} catch (InvalidSideException e) {
+		} catch (InvalidSideException | InvocationTargetException | IllegalAccessException e) {
 			return false;
 		}
 	}

@@ -9,7 +9,6 @@ import net.minecraftforge.eventbus.api.Event;
 /**
  * Used to register your packets with LibZontreck. Packets must extend IPacket and implement PacketSerializable. This is dispatched on both logical sides, and is considered a final event. It is not cancelable
  * @see IPacket
- * @see PacketSerializable
  */
 public class RegisterPacketsEvent extends Event
 {

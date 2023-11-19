@@ -1,9 +1,8 @@
 package dev.zontreck.libzontreck.currency;
 
 import com.google.common.collect.Lists;
-import dev.zontreck.ariaslib.events.Event;
-import dev.zontreck.ariaslib.events.EventBus;
-import dev.zontreck.ariaslib.events.annotations.Subscribe;
+import dev.zontreck.eventsbus.Bus;
+import dev.zontreck.eventsbus.Subscribe;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.chat.ChatColorFactory;
@@ -25,6 +24,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,11 +81,15 @@ public class Bank
 				accounts.add(new Account((CompoundTag) t));
 			}
 
-			EventBus.BUS.post(new BankReadyEvent());
+			Bus.Post(new BankReadyEvent());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
-		}
-	}
+		} catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	/**
 	 * Do not use manually, this saves the bank data to disk. This is fired automatically when transactions are posted to accounts.
@@ -128,8 +132,15 @@ public class Bank
 			instance.accounts.add(new Account(ID));
 
 			instance.commit();
-			EventBus.BUS.post(new BankAccountCreatedEvent(getAccount(ID)));
-		}else return;
+			try {
+				Bus.Post(new BankAccountCreatedEvent(getAccount(ID)));
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e);
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e);
+			}
+		}else {
+        }
 	}
 
 	/**
@@ -139,10 +150,10 @@ public class Bank
 	 * @param tx The transaction being attempted
 	 * @return True if the transaction has been accepted. False if the transaction was rejected, or insufficient funds.
 	 */
-	protected static boolean postTx(Transaction tx) throws InvalidSideException {
+	protected static boolean postTx(Transaction tx) throws InvalidSideException, InvocationTargetException, IllegalAccessException {
 		if(ServerUtilities.isClient())return false;
 		TransactionEvent ev = new TransactionEvent(tx);
-		if(EventBus.BUS.post(ev))
+		if(Bus.Post(ev))
 		{
 			// Send the list of reasons to the user
 			String reasonStr = String.join("\n", ev.reasons);
@@ -207,8 +218,9 @@ public class Bank
 				Profile.unload(fromProf);
 
 
-			EventBus.BUS.post(new WalletUpdatedEvent(from.player_id, fromOld, from.balance, tx));
-			EventBus.BUS.post(new WalletUpdatedEvent(to.player_id, toOld, to.balance, tx));
+			Bus.Post(new WalletUpdatedEvent(from.player_id, fromOld, from.balance, tx));
+
+			Bus.Post(new WalletUpdatedEvent(to.player_id, toOld, to.balance, tx));
 
 			if(from.isValidPlayer() && !ServerUtilities.playerIsOffline(from.player_id))
 			{

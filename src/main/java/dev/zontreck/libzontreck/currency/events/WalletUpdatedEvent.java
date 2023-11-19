@@ -1,6 +1,6 @@
 package dev.zontreck.libzontreck.currency.events;
 
-import dev.zontreck.ariaslib.events.Event;
+import dev.zontreck.eventsbus.Event;
 import dev.zontreck.libzontreck.currency.Transaction;
 import net.minecraft.world.entity.player.Player;
 
@@ -22,9 +22,5 @@ public class WalletUpdatedEvent extends Event
 		this.oldBal = old;
 		this.newBal = newBal;
 		this.tx=tx;
-	}
-	@Override
-	public boolean isCancellable() {
-		return false;
 	}
 }

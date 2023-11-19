@@ -1,13 +1,21 @@
 plugins {
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'java-library'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
-version = "${mc_version}-${myversion}"
-group = 'dev.zontreck' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'libzontreck'
+version = "${mc_version}-${mod_version}"
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    withSourcesJar()
+}
 
 // Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -34,6 +42,8 @@ minecraft {
     // Simply re-run your setup task after changing the mappings to update your workspace.
     mappings channel: 'parchment', version: "${parchment_version}-${mc_version}"
     // mappings channel: 'official', version: "${mc_version}"
+
+    copyIdeResources = true
 
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
@@ -152,61 +162,55 @@ dependencies {
     implementation "dev.zontreck:LibAC:${libac}"
     minecraftLibrary "dev.zontreck:LibAC:${libac}"
 
+    provided "dev.zontreck:EventsBus:${eventsbus}"
+    implementation "dev.zontreck:EventsBus:${eventsbus}"
+    minecraftLibrary "dev.zontreck:EventsBus:${eventsbus}"
+
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
-jar {
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+tasks.named('jar', Jar).configure {
     from {
         configurations.provided.asFileTree.collect{zipTree(it)}
     }
     manifest {
         attributes([
-                "Specification-Title"     : project.name,
-                "Specification-Vendor"    : "zontreck",
-                "Specification-Version": "${myversion}",
+                "Specification-Title"     : mod_id,
+                "Specification-Vendor"    : mod_authors,
+                "Specification-Version": "${mod_version}",
                 "Implementation-Title": project.name,
-                "Implementation-Version": "${myversion}",
-                "Implementation-Vendor"   : "zontreck",
+                "Implementation-Version": "${mod_version}",
+                "Implementation-Vendor"   : mod_authors,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+
+    finalizedBy 'reobfJar'
 }
 
 
-compileJava.finalizedBy('devJar')
-// Example configuration to allow publishing using the maven-publish plugin
-// This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
+compileJava.finalizedBy('sourcesJar')
+
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 // publish.dependsOn('reobfJar')
-
-task devJar(type: Jar) {
-
-    from sourceSets.main.output
-    from sourceSets.main.allJava
-    classifier = 'dev'
-
-    from {
-        configurations.provided.asFileTree.collect{zipTree(it)}
-    }
-    manifest {
-        attributes([
-            "Specification-Title": project.name,
-            "Specification-Vendor": "zontreck",
-            "Specification-Version": "${myversion}",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${myversion}",
-            "Implementation-Vendor": "zontreck",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-}
-
-devJar.finalizedBy('reobfJar')
 
 
 def MAVEN_PASSWORD_PROPERTY = "AriasCreationsMavenPassword"
@@ -214,7 +218,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact jar
-            artifact devJar
+            artifact sourcesJar
         }
     }
     repositories {
@@ -236,5 +240,5 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 artifacts {
-    archives devJar
+    archives sourcesJar
 }

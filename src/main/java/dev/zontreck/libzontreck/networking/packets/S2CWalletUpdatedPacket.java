@@ -1,6 +1,6 @@
 package dev.zontreck.libzontreck.networking.packets;
 
-import dev.zontreck.ariaslib.events.EventBus;
+import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.currency.Transaction;
 import dev.zontreck.libzontreck.currency.events.WalletUpdatedEvent;
 import dev.zontreck.libzontreck.util.ServerUtilities;
@@ -10,6 +10,7 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -62,7 +63,13 @@ public class S2CWalletUpdatedPacket implements  IPacket
 		return ServerUtilities.handlePacket(supplier, new Runnable() {
 			@Override
 			public void run() {
-				EventBus.BUS.post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
+				try {
+					Bus.Post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
+				} catch (InvocationTargetException e) {
+					throw new RuntimeException(e);
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException(e);
+				}
 
 			}
 		});
