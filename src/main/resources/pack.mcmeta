@@ -1,8 +1,8 @@
 {
     "pack": {
-        "description": "libzontreck resources",
-        "pack_format": 9,
-        "forge:resource_pack_format": 9,
-        "forge:data_pack_format": 9
+        "description": {
+            "text": "${mod_id} Resources. This is a library mod"
+        }
+        "pack_format": 15
     }
 }
