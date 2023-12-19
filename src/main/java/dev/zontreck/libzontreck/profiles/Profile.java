@@ -82,8 +82,7 @@ public class Profile {
             Profile prof = LibZontreck.PROFILES.get(UUID);
             if(!prof.runSanityChecks())
             {
-                LibZontreck.PROFILES.remove(prof);
-                return get_profile_of(UUID);
+                prof.player = ServerUtilities.getPlayerByID(UUID);
             }
             return prof;
         }else {
