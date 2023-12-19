@@ -69,11 +69,23 @@ public class Profile {
         this.accessor = vaultFile;
     }
 
+    public boolean runSanityChecks()
+    {
+        if(player == null) return false;
+        return true;
+    }
+
 
     public static Profile get_profile_of(String UUID) throws UserProfileNotYetExistsException
     {
         if(LibZontreck.PROFILES.containsKey(UUID)){
-            return LibZontreck.PROFILES.get(UUID);
+            Profile prof = LibZontreck.PROFILES.get(UUID);
+            if(!prof.runSanityChecks())
+            {
+                LibZontreck.PROFILES.remove(prof);
+                return get_profile_of(UUID);
+            }
+            return prof;
         }else {
             // Create or load profile
             Path userProfile = BASE.resolve(UUID);
