@@ -32,6 +32,7 @@ public class Profile {
     public ServerPlayer player;
     private File accessor;
     private CompoundTag miscData;
+    public CompoundTag NBT;
 
     public static final Path BASE;
     public static final Profile SYSTEM;
@@ -48,10 +49,10 @@ public class Profile {
             }
         }
 
-        SYSTEM = new Profile("SYSTEM", "", "SYSTEM", ChatColor.DARK_RED, LibZontreck.NULL_ID.toString(), "", "", false, 0, null, 0, null, null);
+        SYSTEM = new Profile("SYSTEM", "", "SYSTEM", ChatColor.DARK_RED, LibZontreck.NULL_ID.toString(), "", "", false, 0, null, 0, null, null, new CompoundTag());
     }
 
-    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile, int deathCount, ServerPlayer player, CompoundTag misc) {
+    public Profile(String username, String prefix, String nickname, String name_color, String ID, String prefix_color, String chat_color, Boolean isFlying, int vaults, File vaultFile, int deathCount, ServerPlayer player, CompoundTag misc, CompoundTag NBT) {
         this.username = username;
         this.prefix = prefix;
         this.nickname = nickname;
@@ -64,6 +65,7 @@ public class Profile {
         this.deaths=deathCount;
         this.player=player;
         miscData = misc;
+        this.NBT = NBT;
 
 
         this.accessor = vaultFile;
@@ -117,7 +119,7 @@ public class Profile {
 
     private static Profile load(CompoundTag tag, File accessor, ServerPlayer player)
     {
-        return new Profile(tag.getString("user"), tag.getString("prefix"), tag.getString("nick"), tag.getString("nickc"), tag.getString("id"), tag.getString("prefixc"), tag.getString("chatc"), tag.getBoolean("flying"), tag.getInt("vaults"), accessor, tag.getInt("deaths"), player, tag.getCompound("misc"));
+        return new Profile(tag.getString("user"), tag.getString("prefix"), tag.getString("nick"), tag.getString("nickc"), tag.getString("id"), tag.getString("prefixc"), tag.getString("chatc"), tag.getBoolean("flying"), tag.getInt("vaults"), accessor, tag.getInt("deaths"), player, tag.getCompound("misc"), tag.getCompound("data"));
     }
 
     private static void generateNewProfile(ServerPlayer player)
@@ -128,7 +130,7 @@ public class Profile {
         {
             // Load profile data
             File ace = userProfile.resolve("profile.nbt").toFile();
-            Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace, 0, player, new CompoundTag());
+            Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace, 0, player, new CompoundTag(), new CompoundTag());
             template.commit();
 
             
@@ -191,6 +193,7 @@ public class Profile {
         ProfileSavingEvent event = new ProfileSavingEvent(this, miscData);
         MinecraftForge.EVENT_BUS.post(event);
         serial.put("misc", event.tag);
+        serial.put("data", NBT);
 
 
 
