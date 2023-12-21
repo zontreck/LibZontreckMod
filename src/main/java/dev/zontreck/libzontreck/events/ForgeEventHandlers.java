@@ -5,11 +5,13 @@ import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.currency.Account;
 import dev.zontreck.libzontreck.currency.Bank;
+import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.networking.packets.S2CWalletInitialSyncPacket;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
+import dev.zontreck.libzontreck.util.ServerUtilities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -65,12 +67,22 @@ public class ForgeEventHandlers {
     {
         if(ev.getEntity().level().isClientSide)return;
         // Get player profile, send disconnect alert, then commit profile and remove it from memory
-        Profile px=null;
+
         try {
-            px = Profile.get_profile_of(ev.getEntity().getStringUUID());
-        } catch (UserProfileNotYetExistsException e) {
-            e.printStackTrace();
+            if(ServerUtilities.playerIsOffline(ev.getEntity().getUUID()))
+            {
+
+                Profile px=null;
+                try {
+                    px = Profile.get_profile_of(ev.getEntity().getStringUUID());
+                } catch (UserProfileNotYetExistsException e) {
+                    e.printStackTrace();
+                }
+                Profile.unload(px);
+            }
+        } catch (InvalidSideException e) {
+            throw new RuntimeException(e);
         }
-        Profile.unload(px);
+
     }
 }
