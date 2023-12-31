@@ -2,9 +2,11 @@ package dev.zontreck.libzontreck.networking.packets;
 
 import java.util.function.Supplier;
 
+import dev.zontreck.libzontreck.events.OpenGUIEvent;
 import dev.zontreck.libzontreck.networking.structures.OpenGUIRequest;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkEvent;
 
 /**
@@ -36,6 +38,8 @@ public class ChestGUIOpenC2S {
         ctx.enqueueWork(()->{
             // We are on the server!
             OpenGUIRequest req = new OpenGUIRequest(data);
+
+            MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(req.ID, req.playerID));
         });
 
         return true;

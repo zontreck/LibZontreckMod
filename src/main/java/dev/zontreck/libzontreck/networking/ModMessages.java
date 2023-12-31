@@ -2,6 +2,7 @@ package dev.zontreck.libzontreck.networking;
 
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.events.RegisterPacketsEvent;
+import dev.zontreck.libzontreck.networking.packets.C2SChestGUIButtonClicked;
 import dev.zontreck.libzontreck.networking.packets.ChestGUIOpenC2S;
 import dev.zontreck.libzontreck.networking.packets.IPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -51,6 +52,11 @@ public class ModMessages {
             .consumerMainThread(ChestGUIOpenC2S::handle)
             .add();
 
+        net.messageBuilder(C2SChestGUIButtonClicked.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(C2SChestGUIButtonClicked::new)
+                .encoder(C2SChestGUIButtonClicked::toBytes)
+                .consumerMainThread(C2SChestGUIButtonClicked::handle)
+                .add();
 
     }
 

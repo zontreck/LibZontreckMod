@@ -7,37 +7,30 @@ import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class OpenGUIRequest {
-    public List<ItemStack> options = new ArrayList<>();
-    public String GUITitle;
+    public ResourceLocation ID;
     public UUID playerID;
 
     public OpenGUIRequest(CompoundTag tag)
     {
-        ListTag items = tag.getList("items", Tag.TAG_COMPOUND);
+        CompoundTag tags = tag.getCompound("id");
 
-        for(Tag tags : items)
-        {
-            ItemStack is = ItemStack.of((CompoundTag)tags);
-            options.add(is);
-        }
-
-        GUITitle = tag.getString("title");
+        ID = new ResourceLocation(tags.getString("mod"), tags.getString("id"));
         playerID = tag.getUUID("player");
     }
 
     public CompoundTag serialize()
     {
         CompoundTag tag = new CompoundTag();
-        tag.putString("title", GUITitle);
         tag.putUUID("player", playerID);
-        ListTag lst = new ListTag();
-        for (ItemStack itemStack : options) {
-            lst.add(itemStack.serializeNBT());
-        }
-        tag.put("items", lst);
+        CompoundTag tags = new CompoundTag();
+        tags.putString("mod", ID.getNamespace());
+        tags.putString("id", ID.getPath());
+
+        tag.put("id", tags);
 
         return tag;
     }
