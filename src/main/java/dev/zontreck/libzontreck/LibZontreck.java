@@ -13,7 +13,10 @@ import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.chestgui.ChestGUIRegistry;
 import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
+import dev.zontreck.libzontreck.menus.ChestGUIScreen;
+import dev.zontreck.libzontreck.types.ModMenuTypes;
 import dev.zontreck.libzontreck.networking.NetworkEvents;
+import net.minecraft.client.gui.screens.MenuScreens;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -127,7 +130,7 @@ public class LibZontreck {
             LibZontreck.ALIVE = false; // Prevents loops on the client that are meant for server tick processing
 
 
-            //MenuScreens.register(ModMenuTypes.CHESTGUI.get(), ChestGuiScreen::new);
+            MenuScreens.register(ModMenuTypes.CHEST_GUI_MENU.get(), ChestGUIScreen::new);
         }
     }
 
