@@ -3,8 +3,14 @@ package dev.zontreck.libzontreck.commands;
 import com.mojang.brigadier.CommandDispatcher;
 
 
+import dev.zontreck.libzontreck.chestgui.ChestGUI;
+import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
+import dev.zontreck.libzontreck.util.heads.CreditsEntry;
+import dev.zontreck.libzontreck.util.heads.HeadCache;
+import dev.zontreck.libzontreck.vectors.Vector2i;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 public class CreditsCommand {
@@ -17,7 +23,23 @@ public class CreditsCommand {
         // Open the credits GUI
         if(source.getEntity() instanceof Player)
         {
-            // OK. 
+            // OK.
+            ChestGUI gui = ChestGUI.builder().withGUIId(new ResourceLocation("ariasmods", "credits-gui")).withPlayer(source.getEntity().getUUID());
+
+            Vector2i pos = new Vector2i();
+            for(CreditsEntry entry : HeadCache.CREDITS)
+            {
+                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{}, pos));
+
+                pos.y++;
+                if(pos.y>=9)
+                {
+                    pos.x++;
+                    pos.y=0;
+                }
+            }
+
+            gui.open();
             
             
 

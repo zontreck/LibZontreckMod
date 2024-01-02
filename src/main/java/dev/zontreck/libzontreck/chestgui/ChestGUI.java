@@ -1,14 +1,20 @@
 package dev.zontreck.libzontreck.chestgui;
 
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.menus.ChestGUIMenu;
 import dev.zontreck.libzontreck.networking.packets.ChestGUIOpenC2S;
+import dev.zontreck.libzontreck.util.ServerUtilities;
 import dev.zontreck.libzontreck.vectors.Vector2;
+import dev.zontreck.libzontreck.vectors.Vector2i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.network.NetworkHooks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +60,7 @@ public class ChestGUI
     {
         if(LibZontreck.CURRENT_SIDE == LogicalSide.SERVER)
         {
-
+            NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), Component.literal(MenuTitle)));
         }
     }
 
@@ -86,5 +92,32 @@ public class ChestGUI
                 }
             }
         }
+    }
+
+    public boolean hasSlot(Vector2i slot)
+    {
+        for(ChestGUIButton btn : buttons)
+        {
+            if(btn.matchesSlot(slot))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public ChestGUIButton getSlot(Vector2i slot) {
+        if(hasSlot(slot))
+        {
+            for(ChestGUIButton btn : buttons)
+            {
+                if(btn.matchesSlot(slot))
+                {
+                    return btn;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -4,10 +4,12 @@ import dev.zontreck.libzontreck.lore.LoreContainer;
 import dev.zontreck.libzontreck.lore.LoreEntry;
 import dev.zontreck.libzontreck.util.ChatHelpers;
 import dev.zontreck.libzontreck.vectors.Vector2;
+import dev.zontreck.libzontreck.vectors.Vector2i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,9 @@ public class ChestGUIButton
     /**
      * Position is Row (X), Column (Y)
      */
-    private Vector2 position;
+    private Vector2i position;
 
-    public ChestGUIButton(Item icon, String name, Runnable callback, Vector2 position)
+    public ChestGUIButton(Item icon, String name, Runnable callback, Vector2i position)
     {
         this.icon = icon;
         this.name = name;
@@ -35,7 +37,7 @@ public class ChestGUIButton
         tooltipInfo = new ArrayList<>();
     }
 
-    public ChestGUIButton(ItemStack existing, Runnable callback, Vector2 position)
+    public ChestGUIButton(ItemStack existing, Runnable callback, Vector2i position)
     {
         this.callback = callback;
         this.position = position;
@@ -76,6 +78,15 @@ public class ChestGUIButton
         return ret;
     }
 
+    public ItemStackHandler buildIconStack()
+    {
+        ItemStack stack = buildIcon();
+        ItemStackHandler st = new ItemStackHandler(1);
+        st.setStackInSlot(0, stack);
+
+        return st;
+    }
+
     /**
      * Adds a line to the Lore (Tooltip) of the button
      * @param line The line to add
@@ -86,6 +97,16 @@ public class ChestGUIButton
         tooltipInfo.add(line);
 
         return this;
+    }
+
+    /**
+     * Check if the slot's row and column match (X,Y)
+     * @param slot
+     * @return True if matches
+     */
+    public boolean matchesSlot(Vector2i slot)
+    {
+        return position.same(slot);
     }
 
     /**

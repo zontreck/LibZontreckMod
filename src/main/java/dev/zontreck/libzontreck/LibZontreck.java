@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.eventsbus.Bus;
-import dev.zontreck.libzontreck.chestgui.ChestGUIRegistry;
 import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
 import dev.zontreck.libzontreck.menus.ChestGUIScreen;
@@ -84,7 +83,6 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         MinecraftForge.EVENT_BUS.register(new Commands());
         MinecraftForge.EVENT_BUS.register(new NetworkEvents());
-        MinecraftForge.EVENT_BUS.register(new ChestGUIRegistry());
 
         Bus.Reset();
 

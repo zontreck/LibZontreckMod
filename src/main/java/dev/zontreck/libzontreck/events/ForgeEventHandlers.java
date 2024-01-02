@@ -3,8 +3,6 @@ package dev.zontreck.libzontreck.events;
 import dev.zontreck.ariaslib.terminal.Task;
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
 import dev.zontreck.libzontreck.LibZontreck;
-import dev.zontreck.libzontreck.currency.Account;
-import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.networking.ModMessages;
