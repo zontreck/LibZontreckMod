@@ -106,7 +106,7 @@ public class HeadCache
         creds.add(
             new CreditsEntry(HeadUtilities.cachedLookup("PossumTheWarrior"), "PossumTheWarrior", "Tester", "Poss has helped to test the mods from very early on"));
         creds.add(
-            new CreditsEntry(HeadUtilities.cachedLookup("GemMD"), "GemMD", "Adviser", "GemMD has provided advise on marketing and development decisions for various mods"));
+            new CreditsEntry(HeadUtilities.cachedLookup("GemMD"), "GemMD", "Adviser", "GemMD has provided advice on marketing and development decisions for various mods"));
 
         CREDITS = creds;
 

@@ -29,6 +29,9 @@ public class ChestGUIScreen extends AbstractContainerScreen<ChestGUIMenu> {
 
         this.imageWidth = 191;
         this.imageHeight = 82;
+
+        this.titleLabelX = 32;
+        this.titleLabelY =5;
     }
 
     @Override
@@ -58,6 +61,6 @@ public class ChestGUIScreen extends AbstractContainerScreen<ChestGUIMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(font, title.getString(), 32, 5, 0x000000);
+        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
     }
 }

@@ -86,6 +86,8 @@ public class LibZontreck {
 
         Bus.Reset();
 
+        ModMenuTypes.REGISTRY.register(bus);
+
         Bus.Register(CurrencyHelper.class, null);
         Bus.Register(Bank.class, null);
     }

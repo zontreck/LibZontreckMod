@@ -29,13 +29,14 @@ public class CreditsEntry {
         ItemStack stack = player.getAsItem();
         stack.setHoverName(Component.literal(name));
         LoreContainer contain = new LoreContainer(stack);
+        contain.miscData.LoreData.clear();
         LoreEntry entry = new LoreEntry();
-        entry.text = ChatColor.doColors("!Dark_Purple!Role: "+role);
+        entry.text = ChatColor.doColors("!Dark_Purple!Role: "+role + "\n");
         entry.bold=true;
         entry.italic=true;
         contain.miscData.LoreData.add(entry);
         entry = new LoreEntry();
-        entry.text = ChatColor.doColors("!White!About: !Dark_Green!"+description);
+        entry.text = ChatColor.doColors("!White!About: !Dark_Green!"+description + "\n");
         entry.italic=true;
         contain.miscData.LoreData.add(entry);
 

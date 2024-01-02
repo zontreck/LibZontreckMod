@@ -3,6 +3,7 @@ package dev.zontreck.libzontreck.commands;
 import com.mojang.brigadier.CommandDispatcher;
 
 
+import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
 import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
 import dev.zontreck.libzontreck.util.heads.CreditsEntry;
@@ -24,18 +25,21 @@ public class CreditsCommand {
         if(source.getEntity() instanceof Player)
         {
             // OK.
-            ChestGUI gui = ChestGUI.builder().withGUIId(new ResourceLocation("ariasmods", "credits-gui")).withPlayer(source.getEntity().getUUID());
+            ChestGUI gui = ChestGUI.builder().withGUIId(new ResourceLocation("ariasmods", "creditsgui")).withPlayer(source.getEntity().getUUID()).withTitle("Aria's Mods - Credits");
 
-            Vector2i pos = new Vector2i();
+            int x = 0;
+            int y = 0;
             for(CreditsEntry entry : HeadCache.CREDITS)
             {
-                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{}, pos));
+                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{}, new Vector2i(x,y)));
 
-                pos.y++;
-                if(pos.y>=9)
+                LibZontreck.LOGGER.info("Add gui button : " + entry.name);
+
+                y++;
+                if(y>=9)
                 {
-                    pos.x++;
-                    pos.y=0;
+                    x++;
+                    y=0;
                 }
             }
 

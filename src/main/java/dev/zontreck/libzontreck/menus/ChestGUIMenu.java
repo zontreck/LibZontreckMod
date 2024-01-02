@@ -2,6 +2,7 @@ package dev.zontreck.libzontreck.menus;
 
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
 import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
+import dev.zontreck.libzontreck.dynamicchest.ChestGUIReadOnlyStackHandler;
 import dev.zontreck.libzontreck.dynamicchest.ReadOnlyItemStackHandler;
 import dev.zontreck.libzontreck.types.ModMenuTypes;
 import dev.zontreck.libzontreck.vectors.Vector2i;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 public class ChestGUIMenu extends AbstractContainerMenu
 {
     public final ChestGUI gui;
+    public final ItemStackHandler slots;
 
     public ChestGUIMenu(int id, Inventory playerInv, FriendlyByteBuf buf)
     {
@@ -32,7 +34,8 @@ public class ChestGUIMenu extends AbstractContainerMenu
 
         this.gui = gui;
 
-        if(gui == null)return;
+        slots = new ChestGUIReadOnlyStackHandler(gui);
+
 
         int slotSize = 18;
         int startX = 15;
@@ -42,12 +45,7 @@ public class ChestGUIMenu extends AbstractContainerMenu
         {
             for(int column=0;column<9;column++)
             {
-                Vector2i slot = new Vector2i(row, column);
-                ChestGUIButton btn = gui.getSlot(slot);
-                if(gui.hasSlot(slot))
-                {
-                    addSlot(new SlotItemHandler(new ReadOnlyItemStackHandler(btn.buildIconStack(), btn::clicked), row*9 + column, startX + column * slotSize, startY + row * slotSize));
-                }
+                addSlot(new SlotItemHandler(slots, row*9 + column, startX + column * slotSize, startY + row * slotSize));
             }
         }
     }
