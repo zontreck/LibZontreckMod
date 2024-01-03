@@ -28,6 +28,12 @@ public class ChestGUIButton
      */
     private Vector2i position;
 
+    public ChestGUIButton withName(String name)
+    {
+        this.name=name;
+        return this;
+    }
+
     public ChestGUIButton(Item icon, String name, Runnable callback, Vector2i position)
     {
         this.icon = icon;
