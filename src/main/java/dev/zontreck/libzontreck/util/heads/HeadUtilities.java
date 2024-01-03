@@ -27,9 +27,9 @@ public class HeadUtilities {
         }
     }
 
-    public static ItemStack get(String playerName)
+    public static ItemStack get(String playerName, String itemName)
     {
-        return cachedLookup(playerName).getAsItem();
+        return cachedLookup(playerName).getAsItem(itemName);
     }
 
     private static HeadCacheItem externalHeadRequest(String playerName)

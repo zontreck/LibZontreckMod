@@ -49,7 +49,7 @@ public class HeadCache
         private HeadCacheItem()
         {}
 
-        public ItemStack getAsItem()
+        public ItemStack getAsItem(String itemName)
         {
             ItemStack head = new ItemStack(Items.PLAYER_HEAD, 1);
 
@@ -66,8 +66,14 @@ public class HeadCache
             skullOwner.put("Properties", properties);
             head.addTagElement(PlayerHeadItem.TAG_SKULL_OWNER, skullOwner);
 
-            Component headname = ChatHelpers.macro("[0]'s Head", name);
-            head.setHoverName(headname);
+            if(itemName == "")
+            {
+
+                Component headname = ChatHelpers.macro("[0]'s Head", name);
+                head.setHoverName(headname);
+            }else {
+                head.setHoverName(ChatHelpers.macro(itemName));
+            }
 
             return head;
             
