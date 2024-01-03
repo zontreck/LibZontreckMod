@@ -180,9 +180,9 @@ public class HeadCache
      */
     public void resetCache()
     {
-        HeadUtilities.get("zontreck");
-        HeadUtilities.get("PossumTheWarrior");
-        HeadUtilities.get("GemMD");
+        HeadUtilities.get("zontreck", "");
+        HeadUtilities.get("PossumTheWarrior", "");
+        HeadUtilities.get("GemMD", "");
     }
 
     public List<ItemStack> compiled = new ArrayList<>();

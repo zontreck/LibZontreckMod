@@ -27,7 +27,7 @@ public class CreditsEntry {
      */
     public ItemStack compile()
     {
-        ItemStack stack = player.getAsItem();
+        ItemStack stack = player.getAsItem("");
         stack.setHoverName(Component.literal(name));
         LoreContainer contain = new LoreContainer(stack);
         contain.clear();
