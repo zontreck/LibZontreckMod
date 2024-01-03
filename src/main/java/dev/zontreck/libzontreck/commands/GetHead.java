@@ -20,7 +20,7 @@ public class GetHead {
     private static int getHead(CommandSourceStack source, String string) {
         try {
             ServerPlayer player= source.getPlayerOrException();
-            ItemStack head = HeadUtilities.get(string);
+            ItemStack head = HeadUtilities.get(string, "");
 
             player.addItem(head);
         } catch (CommandSyntaxException e) {
