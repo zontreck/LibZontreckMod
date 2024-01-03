@@ -102,11 +102,11 @@ public class HeadCache
         List<CreditsEntry> creds = new ArrayList<>();
 
         creds.add(
-            new CreditsEntry(HeadUtilities.cachedLookup("zontreck"), "Aria (zontreck)", "Developer", "Aria is the primary developer and project maintainer"));
+            new CreditsEntry(HeadUtilities.cachedLookup("zontreck"), "Aria (zontreck)", "Developer, Designer, Artist", "Aria is the primary developer and project maintainer"));
         creds.add(
-            new CreditsEntry(HeadUtilities.cachedLookup("PossumTheWarrior"), "PossumTheWarrior", "Tester", "Poss has helped to test the mods from very early on"));
+            new CreditsEntry(HeadUtilities.cachedLookup("PossumTheWarrior"), "PossumTheWarrior", "Tester, Adviser, Designer, Artist", "Poss has helped to test the mods from very early on. Poss has also contributed the artwork and mob model for the Possum"));
         creds.add(
-            new CreditsEntry(HeadUtilities.cachedLookup("GemMD"), "GemMD", "Adviser", "GemMD has provided advice on marketing and development decisions for various mods"));
+            new CreditsEntry(HeadUtilities.cachedLookup("GemMD"), "GemMD", "Tester, Adviser, Designer", "GemMD has provided advice on marketing and development decisions for various mods"));
 
         CREDITS = creds;
 

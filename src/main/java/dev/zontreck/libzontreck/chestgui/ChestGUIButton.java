@@ -18,7 +18,7 @@ public class ChestGUIButton
 {
     private Item icon;
     private String name;
-    private List<LoreEntry> tooltipInfo;
+    private List<LoreEntry> tooltipInfo = new ArrayList<>();
 
     private Runnable callback;
     private CompoundTag NBT = new CompoundTag();
@@ -43,7 +43,7 @@ public class ChestGUIButton
         this.position = position;
 
         LoreContainer container = new LoreContainer(existing);
-        tooltipInfo = container.miscData.LoreData;
+        tooltipInfo = container.miscData.loreData;
         name = existing.getHoverName().getString();
         icon = existing.getItem();
         NBT = existing.getTag();
@@ -61,19 +61,17 @@ public class ChestGUIButton
         ItemStack ret = new ItemStack(icon,1);
         ret = ret.setHoverName(ChatHelpers.macro(name));
 
-        LoreContainer cont = new LoreContainer(ret);
-
-        for (LoreEntry str : tooltipInfo)
-        {
-            cont.miscData.LoreData.add(str);
-        }
-
-        cont.commitLore();
 
         NBT.putInt("slot", getSlotNum());
         NBT.put("pos", position.serialize());
 
         ret.setTag(NBT);
+        LoreContainer cont = new LoreContainer(ret);
+        cont.clear();
+
+        cont.miscData.loreData.addAll(tooltipInfo);
+
+        cont.commitLore();
 
         return ret;
     }

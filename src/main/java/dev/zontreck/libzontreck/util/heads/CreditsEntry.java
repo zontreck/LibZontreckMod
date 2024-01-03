@@ -1,6 +1,7 @@
 package dev.zontreck.libzontreck.util.heads;
 
 import dev.zontreck.libzontreck.chat.ChatColor;
+import dev.zontreck.libzontreck.lore.ExtraLore;
 import dev.zontreck.libzontreck.lore.LoreContainer;
 import dev.zontreck.libzontreck.lore.LoreEntry;
 import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
@@ -29,16 +30,17 @@ public class CreditsEntry {
         ItemStack stack = player.getAsItem();
         stack.setHoverName(Component.literal(name));
         LoreContainer contain = new LoreContainer(stack);
-        contain.miscData.LoreData.clear();
-        LoreEntry entry = new LoreEntry();
-        entry.text = ChatColor.doColors("!Dark_Purple!Role: "+role + "\n");
-        entry.bold=true;
-        entry.italic=true;
-        contain.miscData.LoreData.add(entry);
-        entry = new LoreEntry();
-        entry.text = ChatColor.doColors("!White!About: !Dark_Green!"+description + "\n");
-        entry.italic=true;
-        contain.miscData.LoreData.add(entry);
+        contain.clear();
+        LoreEntry.Builder builder = new LoreEntry.Builder();
+        builder = builder.text(ChatColor.doColors("!Dark_Purple!Role: "+role + "\n"))
+                .bold(true)
+                .italic(true);
+        contain.miscData.loreData.add(builder.build());
+
+        builder = new LoreEntry.Builder().italic(true)
+                .text(ChatColor.doColors("!White!About: !Dark_Green!"+description + "\n"));
+
+        contain.miscData.loreData.add(builder.build());
 
         contain.commitLore();
 

@@ -6,6 +6,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
 import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
+import dev.zontreck.libzontreck.networking.ModMessages;
+import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
 import dev.zontreck.libzontreck.util.heads.CreditsEntry;
 import dev.zontreck.libzontreck.util.heads.HeadCache;
 import dev.zontreck.libzontreck.vectors.Vector2i;
@@ -31,9 +33,11 @@ public class CreditsCommand {
             int y = 0;
             for(CreditsEntry entry : HeadCache.CREDITS)
             {
-                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{}, new Vector2i(x,y)));
+                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{
 
-                LibZontreck.LOGGER.info("Add gui button : " + entry.name);
+                }, new Vector2i(x,y)));
+
+                //LibZontreck.LOGGER.info("Add gui button : " + entry.name);
 
                 y++;
                 if(y>=9)

@@ -3,18 +3,40 @@ package dev.zontreck.libzontreck.dynamicchest;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
 import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
+import dev.zontreck.libzontreck.chestgui.ChestGUIRegistry;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
+
 public class ChestGUIReadOnlyStackHandler extends ItemStackHandler
 {
     private ChestGUI gui;
+    private Player player;
+    private long lastClickTime;
+    private int lastClickStack;
 
-    public ChestGUIReadOnlyStackHandler(ChestGUI gui)
+    public boolean validClick(int slot)
+    {
+        if(lastClickStack != slot)return true;
+        else{
+            if(Instant.now().getEpochSecond() > (lastClickTime + 1))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public ChestGUIReadOnlyStackHandler(ChestGUI gui, Player player)
     {
         super((3*9));
         this.gui = gui;
+        this.player = player;
+
 
         LibZontreck.LOGGER.info("Logical Side : " + LibZontreck.CURRENT_SIDE);
 
@@ -43,11 +65,21 @@ public class ChestGUIReadOnlyStackHandler extends ItemStackHandler
 
     @Override
     public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-        ChestGUIButton btn = gui.buttons.stream().filter(x->x.getSlotNum()==slot).findFirst().orElse(null);
+        ChestGUI instance = ChestGUIRegistry.get(player.getUUID());
+        if(instance==null)return ItemStack.EMPTY;
+
+
+        ChestGUIButton btn = instance.buttons.stream().filter(x->x.getSlotNum()==slot).findFirst().orElse(null);
 
         if(btn == null) return ItemStack.EMPTY;
 
-        btn.clicked();
+        if(validClick(slot))
+        {
+            btn.clicked();
+
+            lastClickTime = Instant.now().getEpochSecond();
+            lastClickStack = slot;
+        }
 
         return ItemStack.EMPTY;
     }

@@ -12,7 +12,6 @@ public class NetworkEvents
 	public void onRegisterPackets(RegisterPacketsEvent ev)
 	{
 		ev.packets.add(new S2CWalletUpdatedPacket());
-		ev.packets.add(new S2CPlaySoundPacket());
 		ev.packets.add(new S2CWalletInitialSyncPacket());
 	}
 }

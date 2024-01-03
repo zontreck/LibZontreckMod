@@ -1,8 +1,11 @@
 package dev.zontreck.libzontreck.chestgui;
 
 import dev.zontreck.libzontreck.LibZontreck;
+import dev.zontreck.libzontreck.events.CloseGUIEvent;
 import dev.zontreck.libzontreck.events.OpenGUIEvent;
 import dev.zontreck.libzontreck.menus.ChestGUIMenu;
+import dev.zontreck.libzontreck.networking.ModMessages;
+import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import dev.zontreck.libzontreck.vectors.Vector2;
 import dev.zontreck.libzontreck.vectors.Vector2i;
@@ -59,8 +62,21 @@ public class ChestGUI
     {
         if(LibZontreck.CURRENT_SIDE == LogicalSide.SERVER)
         {
-            MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(id, player));
+            MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(id, player, this));
             NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), Component.literal((MenuTitle != "") ? MenuTitle : "No Title")));
+        }
+    }
+
+    /**
+     * Send a signal to trigger the GUI to close on the server, then send a signal to the client to also close the interface
+     */
+    public void close()
+    {
+        if(LibZontreck.CURRENT_SIDE == LogicalSide.SERVER)
+        {
+            MinecraftForge.EVENT_BUS.post(new CloseGUIEvent(this, ServerUtilities.getPlayerByID(player.toString())));
+            
+            ModMessages.sendToPlayer(new S2CCloseChestGUI(), ServerUtilities.getPlayerByID(player.toString()));
         }
     }
 

@@ -8,118 +8,84 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
 public class LoreContainer {
-    public int loreEntryNumber;
-    public ExtraLore miscData;
+    private int loreEntryNumber;
+    public ExtraLore miscData = new ExtraLore();
+    private final ItemStack associatedItem;
 
-    private ItemStack associatedItem;
-
-
-    public LoreContainer(CompoundTag container, ItemStack associated)
-    {
-        loreEntryNumber = container.getInt("pos");
-        miscData = new ExtraLore(container.getCompound("state"));
-
-        this.associatedItem = associated;
-    }
-    public void save(CompoundTag tag)
-    {
-        tag.putInt("pos", loreEntryNumber);
-        miscData.save(tag);
+    public LoreContainer(ItemStack stack) {
+        associatedItem = stack;
+        loreEntryNumber = getLoreEntryNumber(stack);
+        parseExistingLore(stack);
     }
 
-    public LoreContainer(ItemStack stack)
-    {
-        this.associatedItem=stack;
-        // Set the loreentrynumber appropriately, and insert a blank entry to hold it's position
-        CompoundTag display = stack.getOrCreateTag().getCompound(ItemStack.TAG_DISPLAY);
-        ListTag loreEntries = null;
-        if(display!= null)
-        {
-            loreEntries = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
-            if(loreEntries==null)
-            {
-                loreEntryNumber=0;
-            }else {
-                loreEntryNumber = loreEntries.size(); // This will be the next position
-            }
-        }else {
-            loreEntryNumber=0;
-        }
-
-        miscData = new ExtraLore();
-        LoreEntry blank = new LoreEntry();
-        blank.text = ChatColor.WHITE + "Nothing to see here";
-        
-        miscData.LoreData.add(blank);
-
-        commitLore();
-        
-    }
-
-    public void commitLore()
-    {
-        AssertLoreExists();
-
-        // Set the Lore
-        CompoundTag tag = associatedItem.getTag();
+    public void commitLore() {
+        assertLoreExists();
+        CompoundTag tag = associatedItem.getOrCreateTag();
         CompoundTag display = tag.getCompound(ItemStack.TAG_DISPLAY);
-        ListTag lore = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+        ListTag lore = miscData.saveEntries();
 
-        // Set the lore entry
-        SetOrUpdateIndex(lore, loreEntryNumber, StringTag.valueOf(miscData.saveJson()));
         display.put(ItemStack.TAG_LORE, lore);
         tag.put(ItemStack.TAG_DISPLAY, display);
         associatedItem.setTag(tag);
-
-
     }
 
-    private void SetOrUpdateIndex(ListTag lst, int pos, Tag insert)
-    {
-        if(lst.size() <= pos){
+    public void clear() {
+        loreEntryNumber = 0;
+        miscData.loreData.clear();
+        CompoundTag tag = associatedItem.getOrCreateTag().getCompound(ItemStack.TAG_DISPLAY);
+        tag.remove(ItemStack.TAG_LORE);
+        commitLore();
+    }
+
+    private void setOrUpdateIndex(ListTag lst, int pos, Tag insert) {
+        if (lst.size() <= pos) {
             lst.add(insert);
-            // Update the loreEntryNumber
-            loreEntryNumber = lst.indexOf(insert);
-        }else lst.set(pos, insert);
+            loreEntryNumber = lst.size() - 1;
+        } else {
+            lst.set(pos, insert);
+        }
     }
 
-    private void AssertLoreExists()
-    {
-        AssertTag();
-        AssertDisplay();
-        AssertLore();
+    private void assertLoreExists() {
+        assertTag();
+        assertDisplay();
+        assertLore();
     }
 
-    private void AssertTag()
-    {
-        if(!associatedItem.hasTag()){
+    private void assertTag() {
+        if (!associatedItem.hasTag()) {
             associatedItem.setTag(new CompoundTag());
         }
     }
 
-    private void AssertDisplay()
-    {
-        CompoundTag tag = associatedItem.getTag();
+    private void assertDisplay() {
+        CompoundTag tag = associatedItem.getOrCreateTag();
         CompoundTag display = tag.getCompound(ItemStack.TAG_DISPLAY);
-        if(display==null)
-        {
+        if (display.isEmpty()) {
             tag.put(ItemStack.TAG_DISPLAY, new CompoundTag());
             associatedItem.setTag(tag);
         }
     }
 
-    private void AssertLore()
-    {
-        CompoundTag tag = associatedItem.getTag();
+    private void assertLore() {
+        CompoundTag tag = associatedItem.getOrCreateTag();
         CompoundTag display = tag.getCompound(ItemStack.TAG_DISPLAY);
         ListTag lore = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
-
-        if(lore == null)
-        {
-            lore = new ListTag();
-            display.put(ItemStack.TAG_LORE, lore);
-            tag.put(ItemStack.TAG_DISPLAY, display);
+        if (lore.isEmpty()) {
+            display.put(ItemStack.TAG_LORE, new ListTag());
             associatedItem.setTag(tag);
         }
+    }
+
+    private int getLoreEntryNumber(ItemStack stack) {
+        CompoundTag display = stack.getOrCreateTag().getCompound(ItemStack.TAG_DISPLAY);
+        ListTag loreEntries = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+        return (loreEntries != null) ? loreEntries.size() : 0;
+    }
+
+    private void parseExistingLore(ItemStack stack) {
+        CompoundTag display = stack.getOrCreateTag().getCompound(ItemStack.TAG_DISPLAY);
+        ListTag loreEntries = display.getList(ItemStack.TAG_LORE, Tag.TAG_STRING);
+        miscData = new ExtraLore(loreEntries);
     }
 }

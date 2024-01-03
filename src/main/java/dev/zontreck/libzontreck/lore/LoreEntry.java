@@ -1,17 +1,89 @@
 package dev.zontreck.libzontreck.lore;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 
-public class LoreEntry
-{
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoreEntry {
+
+    /**
+     * Builder pattern for creating a LoreEntry object.
+     */
+    public static class Builder {
+        private boolean bold;
+        private boolean italic;
+        private boolean underlined;
+        private boolean strikethrough;
+        private boolean obfuscated;
+        private String color = "";
+        private String text = "";
+
+        public Builder bold(boolean bold) {
+            this.bold = bold;
+            return this;
+        }
+
+        public Builder italic(boolean italic) {
+            this.italic = italic;
+            return this;
+        }
+
+        public Builder underlined(boolean underlined) {
+            this.underlined = underlined;
+            return this;
+        }
+
+        public Builder strikethrough(boolean strikethrough) {
+            this.strikethrough = strikethrough;
+            return this;
+        }
+
+        public Builder obfuscated(boolean obfuscated) {
+            this.obfuscated = obfuscated;
+            return this;
+        }
+
+        public Builder color(String color) {
+            this.color = color;
+            return this;
+        }
+
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public LoreEntry build() {
+            return new LoreEntry(this);
+        }
+    }
+
     public boolean bold;
     public boolean italic;
     public boolean underlined;
     public boolean strikethrough;
     public boolean obfuscated;
-    public String color="";
-    public String text="";
+    public String color = "";
+    public String text = "";
+
+    /**
+     * Constructs a LoreEntry object from a Builder
+     */
+    LoreEntry(Builder builder) {
+        bold = builder.bold;
+        italic = builder.italic;
+        underlined = builder.underlined;
+        strikethrough = builder.strikethrough;
+        obfuscated = builder.obfuscated;
+        color = builder.color;
+        text = builder.text;
+    }
+
 
     public LoreEntry (CompoundTag tag)
     {
@@ -25,7 +97,12 @@ public class LoreEntry
         text = tag.getString("text");
     }
 
-    public void save(ListTag parentTag){
+    /**
+     * Saves the lore attributes into a ListTag for storage.
+     *
+     * @param parentTag The parent ListTag to save the attributes.
+     */
+    public void save(ListTag parentTag) {
         CompoundTag tag = new CompoundTag();
         tag.putBoolean("bold", bold);
         tag.putBoolean("italic", italic);
@@ -38,30 +115,46 @@ public class LoreEntry
         parentTag.add(tag);
     }
 
-    private String bool2str(boolean a){
-        if(a)return "true";
-        else return "false";
+    /**
+     * Generates a JSON string representing the lore entry.
+     *
+     * @return The JSON string representing the lore entry.
+     */
+    public String saveJson() {
+        List<LoreEntry> list = new ArrayList<>();
+        list.add(this);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(list);
     }
 
-    // Only json saving is available. 
-    // The NBT Variant should be saved to the mod's custom tag container due to the way lore must be formatted
-    public String saveJson()
-    {
-        
-        String obj = "{";
-        obj += "\"bold\": " + bool2str(bold)+",";
-        obj += "\"italic\": " + bool2str(italic)+",";
-        obj += "\"underlined\": "+bool2str(underlined)+",";
-        obj += "\"strikethrough\": "+bool2str(strikethrough)+",";
-        obj += "\"obfuscated\": "+bool2str(obfuscated)+",";
-        obj += "\"color\": \""+color+"\",";
-        obj += "\"text\": \""+text+"\"";
-        obj += "}";
 
+    /**
+     * Parses a JSON string to create a LoreEntry object.
+     *
+     * @param json The JSON string representing lore attributes.
+     * @return A LoreEntry object created from the JSON string.
+     */
 
-        return obj;
+    public static LoreEntry parseJson(String json) {
+        Gson gson = new Gson();
+        List<LoreEntry> list = gson.fromJson(json, new TypeToken<List<LoreEntry>>() {}.getType());
 
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+
+        return null;
     }
 
-    public LoreEntry(){}
+
+    /**
+     * Converts a boolean value to its string representation.
+     *
+     * @param a The boolean value to convert.
+     * @return The string representation of the boolean.
+     */
+    private String bool2str(boolean a) {
+        return a ? "true" : "false";
+    }
 }

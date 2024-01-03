@@ -2,8 +2,9 @@ package dev.zontreck.libzontreck.networking;
 
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.events.RegisterPacketsEvent;
-import dev.zontreck.libzontreck.networking.packets.ChestGUIOpenC2S;
 import dev.zontreck.libzontreck.networking.packets.IPacket;
+import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
+import dev.zontreck.libzontreck.networking.packets.S2CPlaySoundPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -45,11 +46,17 @@ public class ModMessages {
             packet.register(net);
         }
 
-        net.messageBuilder(ChestGUIOpenC2S.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_SERVER)
-            .decoder(ChestGUIOpenC2S::new)
-            .encoder(ChestGUIOpenC2S::toBytes)
-            .consumerMainThread(ChestGUIOpenC2S::handle)
-            .add();
+        net.messageBuilder(S2CPlaySoundPacket.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
+                        .decoder(S2CPlaySoundPacket::new)
+                                .encoder(S2CPlaySoundPacket::toBytes)
+                                        .consumerMainThread(S2CPlaySoundPacket::handle)
+                                                .add();
+
+        net.messageBuilder(S2CCloseChestGUI.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(S2CCloseChestGUI::new)
+                .encoder(S2CCloseChestGUI::toBytes)
+                .consumerMainThread(S2CCloseChestGUI::handle)
+                .add();
 
     }
 

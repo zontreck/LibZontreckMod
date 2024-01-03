@@ -11,6 +11,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.MenuConstructor;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,7 @@ public class ChestGUIMenu extends AbstractContainerMenu
 {
     public final ChestGUI gui;
     public final ItemStackHandler slots;
+    public final Player player;
 
     public ChestGUIMenu(int id, Inventory playerInv, FriendlyByteBuf buf)
     {
@@ -33,13 +35,15 @@ public class ChestGUIMenu extends AbstractContainerMenu
         super(ModMenuTypes.CHEST_GUI_MENU.get(), id);
 
         this.gui = gui;
+        this.player = player;
 
-        slots = new ChestGUIReadOnlyStackHandler(gui);
+        slots = new ChestGUIReadOnlyStackHandler(gui, player);
 
 
         int slotSize = 18;
-        int startX = 15;
-        int startY = 15;
+        int startX = 16;
+        int startY = 16;
+
 
         for (int row = 0; row < 3; row++)
         {
