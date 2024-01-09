@@ -75,8 +75,6 @@ public class ChestGUI
     public void nextPage()
     {
         page++;
-
-        checkPageButtons();
     }
 
     /**
@@ -85,8 +83,6 @@ public class ChestGUI
     public void prevPage()
     {
         page--;
-
-        checkPageButtons();
     }
 
         /*
@@ -173,7 +169,7 @@ public class ChestGUI
                 ItemStack forwardStack = new ItemStack(ModItems.CHESTGUI_FORWARD.get(), 1);
                 ChestGUIButton nxt = new ChestGUIButton(forwardStack, ()->{
                     close();
-                    prevPage();
+                    nextPage();
                     open();
                 }, new Vector2i(3, 8));
 

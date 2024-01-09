@@ -35,6 +35,7 @@ public class ChestGUIMenu extends AbstractContainerMenu
         super(ModMenuTypes.CHEST_GUI_MENU.get(), id);
 
         this.gui = gui;
+        gui.checkPageButtons();
         this.player = player;
 
         slots = new ChestGUIReadOnlyStackHandler(gui, player);
