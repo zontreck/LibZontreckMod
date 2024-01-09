@@ -56,6 +56,8 @@ public class LibZontreck {
 	public static final String PLAYER_SKIN_URL = "https://sessionserver.mojang.com/session/minecraft/profile/";
     public static final UUID NULL_ID;
 
+    public static boolean LIBZONTRECK_SERVER_AVAILABLE=false;
+
 
     public static LogicalSide CURRENT_SIDE;
 

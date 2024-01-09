@@ -5,6 +5,7 @@ import dev.zontreck.libzontreck.events.RegisterPacketsEvent;
 import dev.zontreck.libzontreck.networking.packets.IPacket;
 import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
 import dev.zontreck.libzontreck.networking.packets.S2CPlaySoundPacket;
+import dev.zontreck.libzontreck.networking.packets.S2CServerAvailable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
@@ -56,6 +57,13 @@ public class ModMessages {
                 .decoder(S2CCloseChestGUI::new)
                 .encoder(S2CCloseChestGUI::toBytes)
                 .consumerMainThread(S2CCloseChestGUI::handle)
+                .add();
+
+        net.messageBuilder(S2CServerAvailable.class, PACKET_ID.getAndIncrement(),
+                NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(S2CServerAvailable::new)
+                .encoder(S2CServerAvailable::toBytes)
+                .consumerMainThread(S2CServerAvailable::handle)
                 .add();
 
     }

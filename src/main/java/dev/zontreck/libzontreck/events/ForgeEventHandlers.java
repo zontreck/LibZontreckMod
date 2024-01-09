@@ -6,6 +6,7 @@ import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.exceptions.InvalidSideException;
 import dev.zontreck.libzontreck.memory.PlayerContainer;
 import dev.zontreck.libzontreck.networking.ModMessages;
+import dev.zontreck.libzontreck.networking.packets.S2CServerAvailable;
 import dev.zontreck.libzontreck.networking.packets.S2CWalletInitialSyncPacket;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
@@ -56,6 +57,9 @@ public class ForgeEventHandlers {
             public void run() {
                 // Check player wallet, then send wallet to client
                 //ModMessages.sendToPlayer(new S2CWalletInitialSyncPacket(player.getUUID()), player);
+
+                S2CServerAvailable avail = new S2CServerAvailable();
+                avail.send(player);
             }
         }, 10);
     }
@@ -63,6 +67,7 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onLeave(final PlayerEvent.PlayerLoggedOutEvent ev)
     {
+        LibZontreck.LIBZONTRECK_SERVER_AVAILABLE=false; // Yes do this even on the client!
         if(ev.getEntity().level().isClientSide)return;
         // Get player profile, send disconnect alert, then commit profile and remove it from memory
 
