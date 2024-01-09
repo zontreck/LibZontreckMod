@@ -82,4 +82,18 @@ public class ServerUtilities
         if(LibZontreck.THE_SERVER.getPlayerList().getPlayer(ID) == null) return true;
         else return false;
     }
+
+    /**
+     * Checks if the user has operator permissions on the server
+     * @param ID The player ID
+     * @return True if the player is op
+     */
+    public static boolean playerIsOp(UUID ID)
+    {
+        ServerPlayer player = getPlayerByID(ID.toString());
+        if(player.hasPermissions(player.getServer().getOperatorUserPermissionLevel()))
+        {
+            return true;
+        }else return false;
+    }
 }
