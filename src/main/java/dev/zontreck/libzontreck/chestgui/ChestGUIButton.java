@@ -104,6 +104,18 @@ public class ChestGUIButton
     }
 
     /**
+     * Sets the position and returns the builder
+     * @param pos New button position
+     * @return This button instance
+     */
+    public ChestGUIButton withPosition(Vector2i pos)
+    {
+        this.position=pos;
+
+        return this;
+    }
+
+    /**
      * Check if the slot's row and column match (X,Y)
      * @param slot
      * @return True if matches

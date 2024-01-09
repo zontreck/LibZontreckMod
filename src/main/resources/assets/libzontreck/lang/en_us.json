@@ -1,0 +1,9 @@
+{
+  "itemGroup.tabs.libzontreck": "Aria's Library",
+
+  "item.libzontreck.chestgui_add": "Add",
+  "item.libzontreck.chestgui_remove": "Remove",
+  "item.libzontreck.chestgui_back": "Previous Page",
+  "item.libzontreck.chestgui_forward": "Next Page",
+  "item.libzontreck.chestgui_reset": "Reset"
+}
