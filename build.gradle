@@ -17,6 +17,7 @@ base {
 java {
 
     withSourcesJar()
+    withJavadocJar()
 }
 
 configurations {
@@ -236,6 +237,7 @@ publishing {
         mavenJava(MavenPublication) {
             artifact jar
             artifact sourcesJar
+            artifact javadocJar
         }
     }
     repositories {

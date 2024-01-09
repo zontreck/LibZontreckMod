@@ -16,6 +16,11 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
+/**
+ * A libZontreck user profile
+ *<p></p>
+ * This is used to contain common player data, as well as be capable of serializing the player's data and sending to/from the client.
+ */
 public class Profile {
     public String username;
     public String user_id;
@@ -78,6 +83,12 @@ public class Profile {
     }
 
 
+    /**
+     * Gets, or loads from persistent data, the user's LibZ profile
+     * @param UUID Player ID
+     * @return Profile
+     * @throws UserProfileNotYetExistsException When the profile has not yet been created
+     */
     public static Profile get_profile_of(String UUID) throws UserProfileNotYetExistsException
     {
         if(LibZontreck.PROFILES.containsKey(UUID)){
@@ -122,6 +133,11 @@ public class Profile {
         return new Profile(tag.getString("user"), tag.getString("prefix"), tag.getString("nick"), tag.getString("nickc"), tag.getString("id"), tag.getString("prefixc"), tag.getString("chatc"), tag.getBoolean("flying"), tag.getInt("vaults"), accessor, tag.getInt("deaths"), player, tag.getCompound("misc"), tag.getCompound("data"));
     }
 
+    /**
+     * Generate a new user profile.
+     *
+     * @param player The player to generate the profile for
+     */
     private static void generateNewProfile(ServerPlayer player)
     {
         
@@ -133,10 +149,10 @@ public class Profile {
             Profile template = new Profile(player.getName().getString(), "Member", player.getDisplayName().getString(), ChatColor.GREEN, player.getStringUUID(), ChatColor.AQUA, ChatColor.WHITE, false, 0, ace, 0, player, new CompoundTag(), new CompoundTag());
             template.commit();
 
+            LibZontreck.PROFILES.put(player.getStringUUID(), template);
+
             
             MinecraftForge.EVENT_BUS.post(new ProfileCreatedEvent(template));
-
-            template=null;
             return;
         }else {
             try {
@@ -166,6 +182,11 @@ public class Profile {
         prof=null;
     }
 
+    /**
+     * Creates a profile if it does not yet exist
+     * @param play Player
+     * @return The existing, or new, profile instance.
+     */
     public static Profile factory(ServerPlayer play)
     {
         try {
@@ -176,6 +197,9 @@ public class Profile {
         }
     }
 
+    /**
+     * Save the profile to disk
+     */
     public void commit()
     {
         // Save data to FileTree

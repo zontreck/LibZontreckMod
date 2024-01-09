@@ -55,7 +55,7 @@ public class ForgeEventHandlers {
             @Override
             public void run() {
                 // Check player wallet, then send wallet to client
-                ModMessages.sendToPlayer(new S2CWalletInitialSyncPacket(player.getUUID()), player);
+                //ModMessages.sendToPlayer(new S2CWalletInitialSyncPacket(player.getUUID()), player);
             }
         }, 10);
     }
@@ -73,10 +73,10 @@ public class ForgeEventHandlers {
                 Profile px=null;
                 try {
                     px = Profile.get_profile_of(ev.getEntity().getStringUUID());
+                    Profile.unload(px);
                 } catch (UserProfileNotYetExistsException e) {
                     e.printStackTrace();
                 }
-                Profile.unload(px);
             }
         } catch (InvalidSideException e) {
             throw new RuntimeException(e);
