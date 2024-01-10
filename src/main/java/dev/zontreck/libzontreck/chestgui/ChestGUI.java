@@ -32,13 +32,18 @@ public class ChestGUI
     public List<ChestGUIButton> buttons = new ArrayList<>();
     private ChestGUIIdentifier id;
     private int page =0;
-    private boolean hasAdd = false;
-    private boolean hasReset = false;
-    private boolean hasRemove = false;
+    public boolean hasAdd = false;
+    public boolean hasReset = false;
+    public boolean hasRemove = false;
 
     private Runnable onAdd;
     private Runnable onReset;
     private Runnable onRemove;
+
+    public ChestGUIButton addBtn = null;
+    public ChestGUIButton resetBtn = null;
+    public ChestGUIButton removeBtn = null;
+
 
 
     public ChestGUI withAdd(Runnable onAdd)
@@ -97,6 +102,8 @@ public class ChestGUI
                 onRemove.run();
             }, new Vector2i(2, 3));
 
+            removeBtn = rem;
+
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }
 
@@ -107,6 +114,8 @@ public class ChestGUI
             ChestGUIButton rem = new ChestGUIButton(resStack, ()-> {
                 onReset.run();
             }, new Vector2i(2, 4));
+
+            resetBtn = rem;
 
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
 
@@ -120,6 +129,8 @@ public class ChestGUI
             ChestGUIButton rem = new ChestGUIButton(remStack, ()-> {
                 onAdd.run();
             }, new Vector2i(2, 5));
+
+            addBtn = rem;
 
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }

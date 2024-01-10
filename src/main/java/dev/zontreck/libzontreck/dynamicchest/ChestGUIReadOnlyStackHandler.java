@@ -49,6 +49,23 @@ public class ChestGUIReadOnlyStackHandler extends ItemStackHandler
                 {
                     setStackInSlot(btn.getSlotNum(), btn.buildIcon());
                 }
+
+                if(gui.hasAdd)
+                {
+                    setStackInSlot(gui.addBtn.getSlotNum(), gui.addBtn.buildIcon());
+                }
+
+                if(gui.hasReset)
+                {
+                    setStackInSlot(gui.resetBtn.getSlotNum(), gui.resetBtn.buildIcon());
+                }
+
+                if(gui.hasRemove)
+                {
+                    setStackInSlot(gui.removeBtn.getSlotNum(), gui.removeBtn.buildIcon());
+                }
+
+
             } else LibZontreck.LOGGER.error("Gui Buttons list is null");
         } else LibZontreck.LOGGER.error("Gui is null!");
     }
