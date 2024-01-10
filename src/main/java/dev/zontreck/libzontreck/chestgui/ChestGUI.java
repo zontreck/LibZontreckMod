@@ -64,118 +64,30 @@ public class ChestGUI
     public ChestGUI withButton(ChestGUIButton button)
     {
         buttons.add(button);
-        //container.setStackInSlot(button.getSlotNum(), button.buildIcon());
+        container.setStackInSlot(button.getSlotNum(), button.buildIcon());
 
         return this;
     }
 
-    /**
-     * Increment to the next page
-     */
-    public void nextPage()
-    {
-        page++;
-    }
-
-    /**
-     * Go back a previous page, if possible
-     */
-    public void prevPage()
-    {
-        page--;
-    }
 
         /*
         X   X   X   X   X   X   X   X   X
         X   X   X   X   X   X   X   X   X
-        <   0   0   -   @   +   0   0   >
+        0   0   0   -   @   +   0   0   0
          */
 
     // LEGEND:
     // X = ChestGUIButton
-    // < = Previous Page Button
     // 0 = Empty Slot
     // - = Remove / Subtract
     // @ = Reset / Refresh
     // + = Add
-    // > = Next Page
 
     /**
-     * Sanity checks the page update
+     * Updates the menu's utility buttons
      */
-    public void checkPageButtons() {
-        int maxPerPage = 2 * 9;
-        int maxForPage = maxPerPage * page;
-
-        int totalButtons = buttons.size();
-        int totalPages = (totalButtons - 1) / maxPerPage; // Calculate total pages
-
-        // Ensure the current page is within bounds
-        if (page < 0) {
-            page = 0;
-        } else if (page > totalPages) {
-            page = totalPages;
-        }
-
-        // Perform additional logic if needed for displaying buttons on the GUI
-        // ...
-
-        updateContainerForPage(); // Update the container for the current page
-    }
-
-    /**
-     * Update the container with the page's buttons
-     */
-    public void updateContainerForPage() {
-        int maxPerPage = 2 * 9;
-        int startIndex = maxPerPage * page;
-        int endIndex = Math.min(startIndex + maxPerPage, buttons.size());
-
-        // Logic to update the container based on buttons for the current page
-        ItemStackHandler pageContainer = new ItemStackHandler((9 * 3)); // Create a new container for the page
-
-        for (int i = startIndex; i < endIndex; i++) {
-            ChestGUIButton button = buttons.get(i);
-
-            // Calculate position relative to the page
-            int relativeIndex = i - startIndex;
-            int row = relativeIndex / 9;
-            int col = relativeIndex % 9;
-
-            Vector2i position = new Vector2i(row, col); // Create position for the button
-            button.withPosition(position); // Set the button's position
-
-            int slot = row * 9 + col; // Calculate the slot based on (row, column)
-            pageContainer.setStackInSlot(slot, button.buildIcon()); // Add button to the container
-        }
-
-        if(hasMultiPage())
-        {
-            if(!isFirstPage())
-            {
-                ItemStack backStack = new ItemStack(ModItems.CHESTGUI_BACK.get(), 1);
-                ChestGUIButton prev = new ChestGUIButton(backStack, ()->{
-                    close();
-                    prevPage();
-                    open();
-                }, new Vector2i(3, 0));
-
-                pageContainer.setStackInSlot(prev.getSlotNum(), prev.buildIcon());
-            }
-
-            if(!isLastPage())
-            {
-
-                ItemStack forwardStack = new ItemStack(ModItems.CHESTGUI_FORWARD.get(), 1);
-                ChestGUIButton nxt = new ChestGUIButton(forwardStack, ()->{
-                    close();
-                    nextPage();
-                    open();
-                }, new Vector2i(3, 8));
-
-                pageContainer.setStackInSlot(nxt.getSlotNum(), nxt.buildIcon());
-            }
-        }
+    public void updateUtilityButtons()
+    {
 
         if(hasRemove)
         {
@@ -185,7 +97,7 @@ public class ChestGUI
                 onRemove.run();
             }, new Vector2i(3, 3));
 
-            pageContainer.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
+            container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }
 
         if(hasReset)
@@ -196,7 +108,7 @@ public class ChestGUI
                 onReset.run();
             }, new Vector2i(3, 4));
 
-            pageContainer.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
+            container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
 
         }
 
@@ -209,11 +121,11 @@ public class ChestGUI
                 onAdd.run();
             }, new Vector2i(3, 5));
 
-            pageContainer.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
+            container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }
-
-        this.container = pageContainer; // Update the container with the new page content
     }
+
+
     public boolean isFirstPage() {
         return page == 0;
     }
@@ -261,6 +173,7 @@ public class ChestGUI
     {
         if(LibZontreck.CURRENT_SIDE == LogicalSide.SERVER)
         {
+            updateUtilityButtons();
             MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(id, player, this));
             NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), Component.literal((MenuTitle != "") ? MenuTitle : "No Title")));
         }
