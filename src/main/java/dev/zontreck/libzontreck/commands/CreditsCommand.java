@@ -6,6 +6,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
 import dev.zontreck.libzontreck.chestgui.ChestGUIButton;
+import dev.zontreck.libzontreck.chestgui.ChestGUIIdentifier;
 import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
 import dev.zontreck.libzontreck.util.heads.CreditsEntry;
@@ -27,7 +28,7 @@ public class CreditsCommand {
         if(source.getEntity() instanceof Player)
         {
             // OK.
-            ChestGUI gui = ChestGUI.builder().withGUIId(new ResourceLocation("ariasmods", "creditsgui")).withPlayer(source.getEntity().getUUID()).withTitle("Aria's Mods - Credits");
+            ChestGUI gui = ChestGUI.builder().withGUIId(new ChestGUIIdentifier("creditsgui")).withPlayer(source.getEntity().getUUID()).withTitle("Aria's Mods - Credits");
 
             int x = 0;
             int y = 0;
