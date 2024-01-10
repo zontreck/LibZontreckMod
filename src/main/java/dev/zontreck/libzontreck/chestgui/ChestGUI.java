@@ -30,7 +30,7 @@ public class ChestGUI
     private String MenuTitle = "";
     private UUID player;
     public List<ChestGUIButton> buttons = new ArrayList<>();
-    private ResourceLocation id;
+    private ChestGUIIdentifier id;
     private int page =0;
     private boolean hasAdd = false;
     private boolean hasReset = false;
@@ -95,7 +95,7 @@ public class ChestGUI
 
             ChestGUIButton rem = new ChestGUIButton(remStack, ()-> {
                 onRemove.run();
-            }, new Vector2i(3, 3));
+            }, new Vector2i(2, 3));
 
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }
@@ -106,7 +106,7 @@ public class ChestGUI
 
             ChestGUIButton rem = new ChestGUIButton(resStack, ()-> {
                 onReset.run();
-            }, new Vector2i(3, 4));
+            }, new Vector2i(2, 4));
 
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
 
@@ -119,7 +119,7 @@ public class ChestGUI
 
             ChestGUIButton rem = new ChestGUIButton(remStack, ()-> {
                 onAdd.run();
-            }, new Vector2i(3, 5));
+            }, new Vector2i(2, 5));
 
             container.setStackInSlot(rem.getSlotNum(), rem.buildIcon());
         }
@@ -197,13 +197,13 @@ public class ChestGUI
         return player.equals(ID);
     }
 
-    public ChestGUI withGUIId(ResourceLocation id)
+    public ChestGUI withGUIId(ChestGUIIdentifier id)
     {
         this.id = id;
         return this;
     }
 
-    public boolean matches(ResourceLocation id)
+    public boolean matches(ChestGUIIdentifier id)
     {
         return this.id.equals(id);
     }
