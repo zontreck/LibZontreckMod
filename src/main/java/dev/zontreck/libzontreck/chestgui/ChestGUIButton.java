@@ -65,7 +65,6 @@ public class ChestGUIButton
     public ItemStack buildIcon()
     {
         ItemStack ret = new ItemStack(icon,1);
-        ret = ret.setHoverName(ChatHelpers.macro(name));
 
 
         NBT.putInt("slot", getSlotNum());
@@ -78,6 +77,9 @@ public class ChestGUIButton
         cont.miscData.loreData.addAll(tooltipInfo);
 
         cont.commitLore();
+
+
+        ret = ret.setHoverName(ChatHelpers.macro(name));
 
         return ret;
     }
