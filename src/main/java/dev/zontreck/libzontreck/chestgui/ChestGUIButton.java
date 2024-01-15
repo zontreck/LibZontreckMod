@@ -29,6 +29,7 @@ public class ChestGUIButton
     private Vector2i position;
     private ItemStack built;
     private ItemStackHandler container;
+    private LoreContainer lore;
 
     /**
      * Sets the name of the ChestGUI Button (Item Name)
@@ -89,6 +90,7 @@ public class ChestGUIButton
 
         ret = ret.setHoverName(ChatHelpers.macro(name));
         built=ret;
+        lore=cont;
 
         return ret;
     }
@@ -100,6 +102,7 @@ public class ChestGUIButton
         st.setStackInSlot(0, stack);
 
         built=stack;
+        lore = new LoreContainer(built);
         return st;
     }
 
@@ -154,6 +157,6 @@ public class ChestGUIButton
 
     public void clicked()
     {
-        callback.run(built, container);
+        callback.run(built, container, lore);
     }
 }
