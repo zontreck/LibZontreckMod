@@ -35,7 +35,7 @@ public class CreditsCommand {
             int y = 0;
             for(CreditsEntry entry : HeadCache.CREDITS)
             {
-                gui = gui.withButton(new ChestGUIButton(entry.compile(), (stack)->{
+                gui = gui.withButton(new ChestGUIButton(entry.compile(), (stack, container)->{
                 }, new Vector2i(x,y)));
 
                 //LibZontreck.LOGGER.info("Add gui button : " + entry.name);

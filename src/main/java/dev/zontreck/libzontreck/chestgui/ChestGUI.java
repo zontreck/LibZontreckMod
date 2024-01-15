@@ -26,6 +26,14 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 
+/**
+ * Zontreck's ChestGUI Interface
+ * <p>
+ * This was heavily inspired by some of the ChestGUI's seen in Spigot mods.
+ * The reason for creating this system is to rapidly prototype interfaces. This is meant to be a helper to add a GUI quickly and easily without all the mess and fuss of making a menu or a screen. This is meant to be a stepping stone, not a permanent replacement to a proper UI.
+ * <p>
+ * This implementation is unlikely to ever change much, as it is just meant to accomplish the above task, and it does, successfully.
+ */
 public class ChestGUI
 {
     private ItemStackHandler container = new ItemStackHandler((9*3));
@@ -104,9 +112,7 @@ public class ChestGUI
         {
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_REM.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(remStack, (stack)-> {
-                onRemove.run(stack);
-            }, new Vector2i(2, 3));
+            ChestGUIButton rem = new ChestGUIButton(remStack, onRemove, new Vector2i(2, 3));
 
             removeBtn = rem;
 
@@ -117,9 +123,7 @@ public class ChestGUI
         {
             ItemStack resStack = new ItemStack(ModItems.CHESTGUI_RESET.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(resStack, (stack)-> {
-                onReset.run(stack);
-            }, new Vector2i(2, 4));
+            ChestGUIButton rem = new ChestGUIButton(resStack, onReset, new Vector2i(2, 4));
 
             resetBtn = rem;
 
@@ -132,9 +136,7 @@ public class ChestGUI
 
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_ADD.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(remStack, (stack)-> {
-                onAdd.run(stack);
-            }, new Vector2i(2, 5));
+            ChestGUIButton rem = new ChestGUIButton(remStack, onAdd, new Vector2i(2, 5));
 
             addBtn = rem;
 

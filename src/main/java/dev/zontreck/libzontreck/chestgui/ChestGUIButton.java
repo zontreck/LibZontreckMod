@@ -29,11 +29,17 @@ public class ChestGUIButton
     private Vector2i position;
     private ItemStack built;
 
+    /**
+     * Sets the name of the ChestGUI Button (Item Name)
+     * @param name Name to set
+     * @return Button instance
+     */
     public ChestGUIButton withName(String name)
     {
         this.name=name;
         return this;
     }
+
 
     public ChestGUIButton(Item icon, String name, IChestGUIButtonCallback callback, Vector2i position)
     {
