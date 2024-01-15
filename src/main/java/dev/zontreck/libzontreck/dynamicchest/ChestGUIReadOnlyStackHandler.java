@@ -16,13 +16,13 @@ public class ChestGUIReadOnlyStackHandler extends ItemStackHandler
     private ChestGUI gui;
     private Player player;
     private long lastClickTime;
-    private int lastClickStack;
+    private int lastClickStack=-1;
 
     public boolean validClick(int slot)
     {
         if(lastClickStack != slot)return true;
         else{
-            if(Instant.now().getEpochSecond() > (lastClickTime + 1))
+            if(Instant.now().getEpochSecond() > (lastClickTime + 3))
             {
                 return true;
             }
@@ -100,4 +100,6 @@ public class ChestGUIReadOnlyStackHandler extends ItemStackHandler
 
         return ItemStack.EMPTY;
     }
+
+
 }
