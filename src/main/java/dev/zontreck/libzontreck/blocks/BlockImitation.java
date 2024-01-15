@@ -26,6 +26,8 @@ public abstract class BlockImitation extends Block
 
     public abstract BlockState getImitatedBlockState(BlockGetter level, BlockPos pos);
 
+    public abstract void updateImitation(BlockState newState, BlockGetter level, BlockPos pos);
+
     @Override
     public void animateTick(BlockState blockState, Level level, BlockPos pos, RandomSource random) {
         BlockState imitatedBlockState = getImitatedBlockState(level, pos);

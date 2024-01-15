@@ -20,13 +20,14 @@ public class ChestGUIButton
     private String name;
     private List<LoreEntry> tooltipInfo = new ArrayList<>();
 
-    private Runnable callback;
+    private IChestGUIButtonCallback callback;
     private CompoundTag NBT = new CompoundTag();
 
     /**
      * Position is Row (X), Column (Y)
      */
     private Vector2i position;
+    private ItemStack built;
 
     public ChestGUIButton withName(String name)
     {
@@ -34,7 +35,7 @@ public class ChestGUIButton
         return this;
     }
 
-    public ChestGUIButton(Item icon, String name, Runnable callback, Vector2i position)
+    public ChestGUIButton(Item icon, String name, IChestGUIButtonCallback callback, Vector2i position)
     {
         this.icon = icon;
         this.name = name;
@@ -43,7 +44,7 @@ public class ChestGUIButton
         tooltipInfo = new ArrayList<>();
     }
 
-    public ChestGUIButton(ItemStack existing, Runnable callback, Vector2i position)
+    public ChestGUIButton(ItemStack existing, IChestGUIButtonCallback callback, Vector2i position)
     {
         this.callback = callback;
         this.position = position;
@@ -80,6 +81,7 @@ public class ChestGUIButton
 
 
         ret = ret.setHoverName(ChatHelpers.macro(name));
+        built=ret;
 
         return ret;
     }
@@ -90,6 +92,7 @@ public class ChestGUIButton
         ItemStackHandler st = new ItemStackHandler(1);
         st.setStackInSlot(0, stack);
 
+        built=stack;
         return st;
     }
 
@@ -138,6 +141,6 @@ public class ChestGUIButton
 
     public void clicked()
     {
-        callback.run();
+        callback.run(built);
     }
 }

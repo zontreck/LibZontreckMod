@@ -23,6 +23,8 @@ import net.minecraftforge.network.NetworkHooks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 public class ChestGUI
 {
@@ -36,9 +38,9 @@ public class ChestGUI
     public boolean hasReset = false;
     public boolean hasRemove = false;
 
-    private Runnable onAdd;
-    private Runnable onReset;
-    private Runnable onRemove;
+    private IChestGUIButtonCallback onAdd;
+    private IChestGUIButtonCallback onReset;
+    private IChestGUIButtonCallback onRemove;
 
     public ChestGUIButton addBtn = null;
     public ChestGUIButton resetBtn = null;
@@ -46,21 +48,21 @@ public class ChestGUI
 
 
 
-    public ChestGUI withAdd(Runnable onAdd)
+    public ChestGUI withAdd(IChestGUIButtonCallback onAdd)
     {
         hasAdd=true;
         this.onAdd=onAdd;
         return this;
     }
 
-    public ChestGUI withReset(Runnable onReset)
+    public ChestGUI withReset(IChestGUIButtonCallback onReset)
     {
         hasReset = true;
         this.onReset = onReset;
         return this;
     }
 
-    private ChestGUI withRemove(Runnable onRemove)
+    private ChestGUI withRemove(IChestGUIButtonCallback onRemove)
     {
         hasRemove = true;
         this.onRemove=onRemove;
@@ -68,6 +70,10 @@ public class ChestGUI
     }
     public ChestGUI withButton(ChestGUIButton button)
     {
+        if(buttons.size()>=2*9)
+        {
+            return this;
+        }
         buttons.add(button);
         container.setStackInSlot(button.getSlotNum(), button.buildIcon());
 
@@ -98,8 +104,8 @@ public class ChestGUI
         {
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_REM.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(remStack, ()-> {
-                onRemove.run();
+            ChestGUIButton rem = new ChestGUIButton(remStack, (stack)-> {
+                onRemove.run(stack);
             }, new Vector2i(2, 3));
 
             removeBtn = rem;
@@ -111,8 +117,8 @@ public class ChestGUI
         {
             ItemStack resStack = new ItemStack(ModItems.CHESTGUI_RESET.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(resStack, ()-> {
-                onReset.run();
+            ChestGUIButton rem = new ChestGUIButton(resStack, (stack)-> {
+                onReset.run(stack);
             }, new Vector2i(2, 4));
 
             resetBtn = rem;
@@ -126,8 +132,8 @@ public class ChestGUI
 
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_ADD.get(), 1);
 
-            ChestGUIButton rem = new ChestGUIButton(remStack, ()-> {
-                onAdd.run();
+            ChestGUIButton rem = new ChestGUIButton(remStack, (stack)-> {
+                onAdd.run(stack);
             }, new Vector2i(2, 5));
 
             addBtn = rem;

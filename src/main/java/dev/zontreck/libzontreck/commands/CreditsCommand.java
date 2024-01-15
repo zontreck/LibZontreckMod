@@ -14,6 +14,7 @@ import dev.zontreck.libzontreck.util.heads.HeadCache;
 import dev.zontreck.libzontreck.vectors.Vector2i;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -34,8 +35,7 @@ public class CreditsCommand {
             int y = 0;
             for(CreditsEntry entry : HeadCache.CREDITS)
             {
-                gui = gui.withButton(new ChestGUIButton(entry.compile(), ()->{
-
+                gui = gui.withButton(new ChestGUIButton(entry.compile(), (stack)->{
                 }, new Vector2i(x,y)));
 
                 //LibZontreck.LOGGER.info("Add gui button : " + entry.name);
