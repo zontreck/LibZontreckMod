@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -155,8 +156,17 @@ public class ChestGUIButton
         return (int) Math.floor((position.x * 9) + position.y);
     }
 
+    private static long lastInvoked = 0;
+    /**
+     * Button was clicked!
+     */
     public void clicked()
     {
-        callback.run(built, container, lore);
+        if(Instant.now().getEpochSecond() > (lastInvoked + 3))
+        {
+
+            lastInvoked = Instant.now().getEpochSecond();
+            callback.run(built, container, lore);
+        }
     }
 }
