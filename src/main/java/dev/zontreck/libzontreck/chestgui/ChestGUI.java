@@ -83,6 +83,7 @@ public class ChestGUI
             return this;
         }
         buttons.add(button);
+        button.withContainer(container);
         container.setStackInSlot(button.getSlotNum(), button.buildIcon());
 
         return this;
@@ -113,6 +114,7 @@ public class ChestGUI
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_REM.get(), 1);
 
             ChestGUIButton rem = new ChestGUIButton(remStack, onRemove, new Vector2i(2, 3));
+            rem.withContainer(container);
 
             removeBtn = rem;
 
@@ -124,6 +126,7 @@ public class ChestGUI
             ItemStack resStack = new ItemStack(ModItems.CHESTGUI_RESET.get(), 1);
 
             ChestGUIButton rem = new ChestGUIButton(resStack, onReset, new Vector2i(2, 4));
+            rem.withContainer(container);
 
             resetBtn = rem;
 
@@ -137,6 +140,7 @@ public class ChestGUI
             ItemStack remStack = new ItemStack(ModItems.CHESTGUI_ADD.get(), 1);
 
             ChestGUIButton rem = new ChestGUIButton(remStack, onAdd, new Vector2i(2, 5));
+            rem.withContainer(container);
 
             addBtn = rem;
 

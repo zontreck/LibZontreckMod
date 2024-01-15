@@ -28,6 +28,7 @@ public class ChestGUIButton
      */
     private Vector2i position;
     private ItemStack built;
+    private ItemStackHandler container;
 
     /**
      * Sets the name of the ChestGUI Button (Item Name)
@@ -102,6 +103,12 @@ public class ChestGUIButton
         return st;
     }
 
+    protected ChestGUIButton withContainer(ItemStackHandler handler)
+    {
+        this.container=handler;
+        return this;
+    }
+
     /**
      * Adds a line to the Lore (Tooltip) of the button
      * @param line The line to add
@@ -147,6 +154,6 @@ public class ChestGUIButton
 
     public void clicked()
     {
-        callback.run(built);
+        callback.run(built, container);
     }
 }
