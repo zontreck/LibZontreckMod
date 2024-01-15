@@ -162,7 +162,7 @@ public class ChestGUIButton
      */
     public void clicked()
     {
-        if(Instant.now().getEpochSecond() > (lastInvoked + 3))
+        if(Instant.now().getEpochSecond() > (lastInvoked + 1))
         {
 
             lastInvoked = Instant.now().getEpochSecond();
