@@ -35,7 +35,7 @@ public class WorldPosition {
     }
 
     public WorldPosition(ServerPlayer player) {
-        this(new Vector3(player.position()), player.serverLevel());
+        this(new Vector3(player.position()), player.getLevel());
     }
 
     public WorldPosition(Vector3 pos, ServerLevel lvl) {

@@ -23,9 +23,9 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeEventHandlers {
     
     @SubscribeEvent
-    public void onPlayerTick(LivingEvent.LivingTickEvent ev)
+    public void onPlayerTick(LivingEvent.LivingUpdateEvent ev)
     {
-        if(ev.getEntity().level().isClientSide) return;
+        if(ServerUtilities.isClient()) return;
 
         if(ev.getEntity() instanceof ServerPlayer player)
         {
@@ -44,11 +44,11 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void onPlayerJoin(final PlayerEvent.PlayerLoggedInEvent ev)
     {
-        if(ev.getEntity().level().isClientSide)return;
+        if(ServerUtilities.isClient())return;
 
         ServerPlayer player = (ServerPlayer)ev.getEntity();
         Profile prof = Profile.factory(player);
-        ServerLevel level = player.serverLevel();
+        ServerLevel level = player.getLevel();
 
         MinecraftForge.EVENT_BUS.post(new ProfileLoadedEvent(prof, player, level));
 
@@ -68,7 +68,7 @@ public class ForgeEventHandlers {
     public void onLeave(final PlayerEvent.PlayerLoggedOutEvent ev)
     {
         LibZontreck.LIBZONTRECK_SERVER_AVAILABLE=false; // Yes do this even on the client!
-        if(ev.getEntity().level().isClientSide)return;
+        if(ServerUtilities.isClient()) return;
         // Get player profile, send disconnect alert, then commit profile and remove it from memory
 
         try {

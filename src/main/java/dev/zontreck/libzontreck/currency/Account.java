@@ -6,7 +6,6 @@ import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.currency.events.TransactionHistoryFlushEvent;
 import dev.zontreck.libzontreck.profiles.Profile;
 import dev.zontreck.libzontreck.profiles.UserProfileNotYetExistsException;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;

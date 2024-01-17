@@ -49,21 +49,21 @@ public class ModMessages {
 
         net.messageBuilder(S2CPlaySoundPacket.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
                         .decoder(S2CPlaySoundPacket::new)
-                                .encoder(S2CPlaySoundPacket::toBytes)
-                                        .consumerMainThread(S2CPlaySoundPacket::handle)
-                                                .add();
+                        .encoder(S2CPlaySoundPacket::toBytes)
+                        .consumer(S2CPlaySoundPacket::handle)
+                        .add();
 
         net.messageBuilder(S2CCloseChestGUI.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(S2CCloseChestGUI::new)
                 .encoder(S2CCloseChestGUI::toBytes)
-                .consumerMainThread(S2CCloseChestGUI::handle)
+                .consumer(S2CCloseChestGUI::handle)
                 .add();
 
         net.messageBuilder(S2CServerAvailable.class, PACKET_ID.getAndIncrement(),
                 NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(S2CServerAvailable::new)
                 .encoder(S2CServerAvailable::toBytes)
-                .consumerMainThread(S2CServerAvailable::handle)
+                .consumer(S2CServerAvailable::handle)
                 .add();
 
     }

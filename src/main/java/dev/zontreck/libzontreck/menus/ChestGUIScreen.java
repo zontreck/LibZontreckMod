@@ -1,9 +1,9 @@
 package dev.zontreck.libzontreck.menus;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chestgui.ChestGUI;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -35,7 +35,7 @@ public class ChestGUIScreen extends AbstractContainerScreen<ChestGUIMenu> {
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(PoseStack pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics);
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
@@ -50,17 +50,18 @@ public class ChestGUIScreen extends AbstractContainerScreen<ChestGUIMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+    protected void renderBg(PoseStack guiGraphics, float v, int i, int i1) {
         renderBackground(guiGraphics);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1,1,1,1);
         RenderSystem.setShaderTexture(0, TEXTURE);
 
-        guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
+        blit(guiGraphics, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY) {
-        pGuiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752, false);
+    protected void renderLabels(PoseStack pGuiGraphics, int pMouseX, int pMouseY) {
+
+        drawString(pGuiGraphics, this.font, this.title, this.titleLabelX, this.titleLabelY, 4210752);
     }
 }

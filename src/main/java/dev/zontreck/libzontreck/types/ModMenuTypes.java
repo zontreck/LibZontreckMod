@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ModMenuTypes
 {
-    public static DeferredRegister<MenuType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.MENU_TYPES, LibZontreck.MOD_ID);
+    public static DeferredRegister<MenuType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.CONTAINERS, LibZontreck.MOD_ID);
 
     public static RegistryObject<MenuType<ChestGUIMenu>> CHEST_GUI_MENU = registerMenuType(ChestGUIMenu::new, "chestgui");
 

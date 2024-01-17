@@ -3,7 +3,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'java-library'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
@@ -53,7 +53,7 @@ minecraft {
     // This property allows configuring Gradle's ProcessResources task(s) to run on IDE output locations before launching the game.
     // It is REQUIRED to be set to true for this template to function.
     // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
-    copyIdeResources = true
+    //copyIdeResources = true
 
     // When true, this property will add the folder name of all declared run configurations to generated IDE run configurations.
     // The folder name can be set on a run configuration using the "folderName" property.
@@ -187,7 +187,7 @@ dependencies {
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 // When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
 // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
-tasks.named('processResources', ProcessResources).configure {
+/*tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
             forge_version       : forge_version, forge_version_range: forge_version_range,
@@ -200,7 +200,7 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
-}
+}*/
 
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {

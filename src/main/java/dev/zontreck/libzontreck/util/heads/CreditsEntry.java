@@ -4,6 +4,7 @@ import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.lore.ExtraLore;
 import dev.zontreck.libzontreck.lore.LoreContainer;
 import dev.zontreck.libzontreck.lore.LoreEntry;
+import dev.zontreck.libzontreck.util.ChatHelpers;
 import dev.zontreck.libzontreck.util.heads.HeadCache.HeadCacheItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +29,7 @@ public class CreditsEntry {
     public ItemStack compile()
     {
         ItemStack stack = player.getAsItem("");
-        stack.setHoverName(Component.literal(name));
+        stack.setHoverName(ChatHelpers.macro(name));
         LoreContainer contain = new LoreContainer(stack);
         contain.clear();
         LoreEntry.Builder builder = new LoreEntry.Builder();

@@ -40,7 +40,7 @@ public class ServerUtilities
         channel.messageBuilder(type, ModMessages.id(), packet.getDirection())
             .decoder(decoder)
             .encoder(X::toBytes)
-            .consumerMainThread(X::handle)
+            .consumer(X::handle)
             .add();
     }
 
