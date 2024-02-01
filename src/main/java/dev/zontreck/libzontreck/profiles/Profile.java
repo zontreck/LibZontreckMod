@@ -18,7 +18,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 /**
  * A libZontreck user profile
- *<p></p>
+ *<p>
  * This is used to contain common player data, as well as be capable of serializing the player's data and sending to/from the client.
  */
 public class Profile {

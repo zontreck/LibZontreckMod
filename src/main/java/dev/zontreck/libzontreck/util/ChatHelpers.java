@@ -111,7 +111,7 @@ public class ChatHelpers {
      */
     public static MutableComponent macro(String input, String... inputs)
     {
-        return new TextComponent(macroize(input,inputs));
+        return Component.literal(macroize(input,inputs));
     }
     /**
      * Returns the output with colors applied, and chat entries replaced using [number] as the format

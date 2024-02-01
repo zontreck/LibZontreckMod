@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeEventHandlers {
     
     @SubscribeEvent
-    public void onPlayerTick(LivingEvent.LivingUpdateEvent ev)
+    public void onPlayerTick(LivingEvent.LivingTickEvent ev)
     {
         if(ServerUtilities.isClient()) return;
 

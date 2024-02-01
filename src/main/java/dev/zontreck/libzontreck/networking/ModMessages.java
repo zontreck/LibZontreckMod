@@ -50,20 +50,20 @@ public class ModMessages {
         net.messageBuilder(S2CPlaySoundPacket.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
                         .decoder(S2CPlaySoundPacket::new)
                         .encoder(S2CPlaySoundPacket::toBytes)
-                        .consumer(S2CPlaySoundPacket::handle)
+                        .consumerMainThread(S2CPlaySoundPacket::handle)
                         .add();
 
         net.messageBuilder(S2CCloseChestGUI.class, PACKET_ID.getAndIncrement(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(S2CCloseChestGUI::new)
                 .encoder(S2CCloseChestGUI::toBytes)
-                .consumer(S2CCloseChestGUI::handle)
+                .consumerMainThread(S2CCloseChestGUI::handle)
                 .add();
 
         net.messageBuilder(S2CServerAvailable.class, PACKET_ID.getAndIncrement(),
                 NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(S2CServerAvailable::new)
                 .encoder(S2CServerAvailable::toBytes)
-                .consumer(S2CServerAvailable::handle)
+                .consumerMainThread(S2CServerAvailable::handle)
                 .add();
 
     }

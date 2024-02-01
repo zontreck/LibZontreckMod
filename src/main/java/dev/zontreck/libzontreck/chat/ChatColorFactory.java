@@ -10,6 +10,10 @@ public class ChatColorFactory {
         public String build(){
             return built;
         }
+
+        /**
+         * Resets the color builder
+         */
         public void reset()
         {
             built="";
@@ -18,6 +22,11 @@ public class ChatColorFactory {
         public ColorBuilder(){}
     }
     private ColorBuilder instance;
+
+    /**
+     * Resets the chat color builder
+     * @return The current builder
+     */
     public ChatColorFactory reset()
     {
         instance.reset();

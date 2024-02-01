@@ -199,7 +199,7 @@ public class ChestGUI
         {
             updateUtilityButtons();
             MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(id, player, this));
-            NetworkHooks.openGui(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), ChatHelpers.macro(((MenuTitle != "") ? MenuTitle : "No Title"))));
+            NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), ChatHelpers.macro(((MenuTitle != "") ? MenuTitle : "No Title"))));
         }
     }
 
