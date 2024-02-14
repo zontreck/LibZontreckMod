@@ -1,6 +1,6 @@
 package dev.zontreck.libzontreck.networking.packets;
 
-import dev.zontreck.eventsbus.Bus;
+
 import dev.zontreck.libzontreck.currency.Transaction;
 import dev.zontreck.libzontreck.currency.events.WalletUpdatedEvent;
 import dev.zontreck.libzontreck.util.ServerUtilities;

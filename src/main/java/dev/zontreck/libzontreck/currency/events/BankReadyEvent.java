@@ -1,7 +1,7 @@
 package dev.zontreck.libzontreck.currency.events;
 
 
-import dev.zontreck.eventsbus.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 /**
  * Contains no information by itself, it only signals that the Bank is open for business

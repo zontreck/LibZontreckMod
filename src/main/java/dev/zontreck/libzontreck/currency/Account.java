@@ -1,7 +1,6 @@
 package dev.zontreck.libzontreck.currency;
 
 
-import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.currency.events.TransactionHistoryFlushEvent;
 import dev.zontreck.libzontreck.profiles.Profile;
@@ -11,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ public class Account
 		LongTermTransactionHistoryRecord rec = LongTermTransactionHistoryRecord.of(player_id);
 		rec.addHistory(history);
 		rec.commit();
-		Bus.Post(new TransactionHistoryFlushEvent(this, rec, history));
+		MinecraftForge.EVENT_BUS.post(new TransactionHistoryFlushEvent(this, rec, history));
 		rec = null;
 		history = new ArrayList<>();
 	}

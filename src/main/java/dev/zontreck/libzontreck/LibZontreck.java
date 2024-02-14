@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import dev.zontreck.ariaslib.util.DelayedExecutorService;
-import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.chestgui.ChestGUIRegistry;
 import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
@@ -89,14 +88,14 @@ public class LibZontreck {
         MinecraftForge.EVENT_BUS.register(new NetworkEvents());
         MinecraftForge.EVENT_BUS.register(ChestGUIRegistry.class);
 
-        Bus.Reset();
 
         ModMenuTypes.REGISTRY.register(bus);
         //CreativeModeTabs.register(bus);
         ModItems.register(bus);
 
-        Bus.Register(CurrencyHelper.class, null);
-        Bus.Register(Bank.class, null);
+        MinecraftForge.EVENT_BUS.register(CurrencyHelper.class);
+        MinecraftForge.EVENT_BUS.register(Bank.class);
+
     }
 
     private void setup(final FMLCommonSetupEvent event)

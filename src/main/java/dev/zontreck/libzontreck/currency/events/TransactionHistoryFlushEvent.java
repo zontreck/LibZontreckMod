@@ -1,10 +1,10 @@
 package dev.zontreck.libzontreck.currency.events;
 
 
-import dev.zontreck.eventsbus.Event;
 import dev.zontreck.libzontreck.currency.Account;
 import dev.zontreck.libzontreck.currency.LongTermTransactionHistoryRecord;
 import dev.zontreck.libzontreck.currency.Transaction;
+import net.minecraftforge.eventbus.api.Event;
 
 import java.util.List;
 

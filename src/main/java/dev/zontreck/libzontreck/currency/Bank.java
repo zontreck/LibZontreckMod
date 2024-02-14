@@ -1,10 +1,6 @@
 package dev.zontreck.libzontreck.currency;
 
-import com.google.common.collect.Lists;
-import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.LibZontreck;
-import dev.zontreck.libzontreck.chat.ChatColor;
-import dev.zontreck.libzontreck.chat.ChatColorFactory;
 import dev.zontreck.libzontreck.currency.events.BankAccountCreatedEvent;
 import dev.zontreck.libzontreck.currency.events.BankReadyEvent;
 import dev.zontreck.libzontreck.currency.events.TransactionEvent;
@@ -81,7 +77,7 @@ public class Bank
 				accounts.add(new Account((CompoundTag) t));
 			}
 
-			Bus.Post(new BankReadyEvent());
+			MinecraftForge.EVENT_BUS.post(new BankReadyEvent());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
         }
@@ -128,7 +124,7 @@ public class Bank
 			instance.accounts.add(new Account(ID));
 
 			instance.commit();
-			Bus.Post(new BankAccountCreatedEvent(getAccount(ID)));
+			MinecraftForge.EVENT_BUS.post(new BankAccountCreatedEvent(getAccount(ID)));
 		}else {
         }
 	}
