@@ -7,6 +7,7 @@ import dev.zontreck.libzontreck.items.ModItems;
 import dev.zontreck.libzontreck.menus.ChestGUIMenu;
 import dev.zontreck.libzontreck.networking.ModMessages;
 import dev.zontreck.libzontreck.networking.packets.S2CCloseChestGUI;
+import dev.zontreck.libzontreck.util.ChatHelpers;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import dev.zontreck.libzontreck.vectors.Vector2;
 import dev.zontreck.libzontreck.vectors.Vector2i;
@@ -198,7 +199,7 @@ public class ChestGUI
         {
             updateUtilityButtons();
             MinecraftForge.EVENT_BUS.post(new OpenGUIEvent(id, player, this));
-            NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), Component.literal((MenuTitle != "") ? MenuTitle : "No Title")));
+            NetworkHooks.openScreen(ServerUtilities.getPlayerByID(player.toString()), new SimpleMenuProvider(ChestGUIMenu.getServerMenu(this), ChatHelpers.macro((MenuTitle != "") ? MenuTitle : "No Title")));
         }
     }
 

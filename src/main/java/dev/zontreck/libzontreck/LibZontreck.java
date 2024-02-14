@@ -13,13 +13,11 @@ import dev.zontreck.eventsbus.Bus;
 import dev.zontreck.libzontreck.chestgui.ChestGUIRegistry;
 import dev.zontreck.libzontreck.currency.Bank;
 import dev.zontreck.libzontreck.currency.CurrencyHelper;
-import dev.zontreck.libzontreck.items.CreativeModeTabs;
 import dev.zontreck.libzontreck.items.ModItems;
 import dev.zontreck.libzontreck.menus.ChestGUIScreen;
 import dev.zontreck.libzontreck.types.ModMenuTypes;
 import dev.zontreck.libzontreck.networking.NetworkEvents;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
