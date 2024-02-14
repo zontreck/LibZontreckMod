@@ -1,8 +1,8 @@
 package dev.zontreck.libzontreck.currency.events;
 
-import dev.zontreck.eventsbus.Event;
 import dev.zontreck.libzontreck.currency.Transaction;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.eventbus.api.Event;
 
 import java.util.UUID;
 

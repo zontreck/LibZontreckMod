@@ -2,7 +2,6 @@ package dev.zontreck.libzontreck.currency;
 
 import com.google.common.collect.Lists;
 import dev.zontreck.eventsbus.Bus;
-import dev.zontreck.eventsbus.Subscribe;
 import dev.zontreck.libzontreck.LibZontreck;
 import dev.zontreck.libzontreck.chat.ChatColor;
 import dev.zontreck.libzontreck.chat.ChatColorFactory;
@@ -22,6 +21,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -208,9 +208,9 @@ public class Bank
 				Profile.unload(fromProf);
 
 
-			Bus.Post(new WalletUpdatedEvent(from.player_id, fromOld, from.balance, tx));
+			MinecraftForge.EVENT_BUS.post(new WalletUpdatedEvent(from.player_id, fromOld, from.balance, tx));
 
-			Bus.Post(new WalletUpdatedEvent(to.player_id, toOld, to.balance, tx));
+			MinecraftForge.EVENT_BUS.post(new WalletUpdatedEvent(to.player_id, toOld, to.balance, tx));
 
 			if(from.isValidPlayer() && !ServerUtilities.playerIsOffline(from.player_id))
 			{
@@ -232,7 +232,7 @@ public class Bank
 	 * This event is fired when wallets get updated. It cannot be cancelled
 	 * @param ev The event containing the player ID and new+old wallet data
 	 */
-	@Subscribe
+	@SubscribeEvent
 	public static void onWalletUpdate(WalletUpdatedEvent ev)
 	{
 
