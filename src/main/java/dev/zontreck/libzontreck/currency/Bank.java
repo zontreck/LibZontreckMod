@@ -143,7 +143,7 @@ public class Bank
 	protected static boolean postTx(Transaction tx) throws InvalidSideException, InvocationTargetException, IllegalAccessException {
 		if(ServerUtilities.isClient())return false;
 		TransactionEvent ev = new TransactionEvent(tx);
-		if(Bus.Post(ev))
+		if(MinecraftForge.EVENT_BUS.post(ev))
 		{
 			// Send the list of reasons to the user
 			String reasonStr = String.join("\n", ev.reasons);

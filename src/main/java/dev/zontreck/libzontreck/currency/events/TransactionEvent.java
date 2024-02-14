@@ -1,15 +1,13 @@
 package dev.zontreck.libzontreck.currency.events;
 
 
-import dev.zontreck.eventsbus.Cancellable;
-import dev.zontreck.eventsbus.Event;
 import dev.zontreck.libzontreck.currency.Transaction;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-@Cancellable
+@Cancelable
 public class TransactionEvent extends Event
 {
 	public Transaction tx;

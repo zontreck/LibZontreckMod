@@ -6,6 +6,7 @@ import dev.zontreck.libzontreck.currency.events.WalletUpdatedEvent;
 import dev.zontreck.libzontreck.util.ServerUtilities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -63,7 +64,7 @@ public class S2CWalletUpdatedPacket implements  IPacket
 		return ServerUtilities.handlePacket(supplier, new Runnable() {
 			@Override
 			public void run() {
-				Bus.Post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
+				MinecraftForge.EVENT_BUS.post(new WalletUpdatedEvent(ID, oldBal, balance, tx));
 
 			}
 		});
